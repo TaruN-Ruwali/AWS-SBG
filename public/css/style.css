@@ -126,6 +126,7 @@ section { padding: 80px 24px; }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
 .team-grid { grid-template-columns: repeat(3, 1fr); }
+.team-grid-lead { grid-template-columns: repeat(2, 1fr); max-width: 700px; margin: 0 auto; gap: 30px; }
 
 .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); transition: transform .25s, box-shadow .25s; }
 .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
@@ -210,14 +211,13 @@ footer { background: var(--primary-dark); color: #dfeef2; padding: 60px 24px 24p
   .nav-links { display: none; }
   .menu-toggle { display: block; }
   .grid-3, .grid-4, .team-grid { grid-template-columns: repeat(2, 1fr); }
-  .team-photo { aspect-ratio: 3/4; }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .contact-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .form-row { grid-template-columns: 1fr; }
 }
 @media (max-width: 520px) {
-  .grid-3, .grid-4, .gallery-grid { grid-template-columns: 1fr; }
+  .grid-3, .grid-4, .gallery-grid, .team-grid, .team-grid-lead { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .hero-actions { flex-direction: column; width: 100%; align-items: stretch; padding: 0 20px; }
   .hero-actions .btn { width: 100%; justify-content: center; }
