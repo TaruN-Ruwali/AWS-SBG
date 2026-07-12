@@ -54,7 +54,7 @@ img { max-width: 100%; display: block; }
 }
 [data-theme="dark"] .navbar { background: rgba(0, 0, 0, 0.85); }
 
-.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; max-width: 1200px; margin: 0 auto; }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; width: 100%; margin: 0 auto; }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand .logo-main { width: 38px; height: 38px; object-fit: contain; }
 .brand-text .name { font-family: var(--font-display); font-weight: 800; font-size: 15px; letter-spacing: 0.02em; }
@@ -90,15 +90,16 @@ img { max-width: 100%; display: block; }
 
 /* ============ HERO ============ */
 .hero { position: relative; padding: 90px 24px 70px; text-align: center; z-index: 1; overflow: hidden; }
-.hero::before {
+body::before {
   content: '';
-  position: absolute;
-  top: 40%; left: 0;
-  width: 900px; height: 900px;
-  background: radial-gradient(circle, rgba(27,108,251,0.18) 0%, transparent 65%);
-  transform: translate(-50%, -50%);
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: 
+    radial-gradient(circle at var(--mouse-x, 40%) var(--mouse-y, 40%), rgba(27,108,251,0.25) 0%, transparent 60%),
+    radial-gradient(circle at calc(100% - var(--mouse-x, 60%)) calc(100% - var(--mouse-y, 60%)), rgba(110,160,255,0.15) 0%, transparent 60%);
   filter: blur(80px);
-  z-index: -1;
+  z-index: -999;
   pointer-events: none;
 }
 .hero-bg { position: absolute; inset: 0; z-index: -2; background-size: cover; background-position: center; }
@@ -221,6 +222,11 @@ footer { background: var(--primary-dark); color: #dfeef2; padding: 60px 24px 24p
   .footer-grid { grid-template-columns: 1fr; }
   .hero-actions { flex-direction: column; width: 100%; align-items: stretch; padding: 0 20px; }
   .hero-actions .btn { width: 100%; justify-content: center; }
+  .brand-text .sub { display: none; }
+  .brand-text .name { font-size: 0; }
+  .brand-text .name::after { content: 'AWS SBG'; font-size: 15px; }
+  .container { padding: 0 14px; }
+  .card, .glass-card { padding: 20px 14px; }
 }
 
 /* animation on scroll */

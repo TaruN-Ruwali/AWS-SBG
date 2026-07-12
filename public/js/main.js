@@ -4,7 +4,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.querySelector('.theme-toggle');
   const root = document.documentElement;
   const savedTheme = localStorage.getItem('sbg-theme');
-  if (savedTheme) root.setAttribute('data-theme', savedTheme);
+  
+  if (savedTheme) {
+    root.setAttribute('data-theme', savedTheme);
+  } else {
+    root.setAttribute('data-theme', 'dark');
+    localStorage.setItem('sbg-theme', 'dark');
+  }
+
+  // ---- Mouse Move Gradient Tracking ----
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth) * 100;
+    const y = (e.clientY / window.innerHeight) * 100;
+    root.style.setProperty('--mouse-x', `${x}%`);
+    root.style.setProperty('--mouse-y', `${y}%`);
+  });
 
   themeToggle?.addEventListener('click', () => {
     const toggle = () => {
