@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>What Actually Runs the Internet? A Student's Guide to Cloud Computing & AWS | AWS Student Builder Group</title>
+  <meta name="description"
+    content="Netflix, Spotify, ChatGPT, Instagram — none of them own the machines they run on. Here's a no-fluff, engineer-to-student explanation of cloud computing, AWS, and how to actually break into this field.">
+  <meta name="keywords"
+    content="cloud computing, AWS, Amazon Web Services, EC2, S3, cloud engineer, DevOps, career roadmap, students, AWS Student Builder Group">
+  <meta name="author" content="AWS Student Builder Group">
+  <link rel="canonical" href="https://example.org/blog/what-runs-the-internet">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="What Actually Runs the Internet? A Student's Guide to Cloud Computing & AWS">
+  <meta property="og:description"
+    content="A ground-up, jargon-free explanation of cloud computing and AWS — written for students who want to actually understand it, not just memorize it.">
+  <meta property="og:image" content="/assets/images/blog/cloud-guide-hero-placeholder.jpg">
+  <meta property="og:url" content="https://example.org/blog/what-runs-the-internet">
+  <meta property="og:site_name" content="AWS Student Builder Group">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="What Actually Runs the Internet? A Student's Guide to Cloud Computing & AWS">
+  <meta name="twitter:description"
+    content="Netflix, Spotify, ChatGPT — none of them own their servers. Here's how the cloud actually works, explained for students.">
+  <meta name="twitter:image" content="/assets/images/blog/cloud-guide-hero-placeholder.jpg">
+
+  <!-- Structured data placeholder -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "What Actually Runs the Internet? A Student's Guide to Cloud Computing & AWS",
+  "author": { "@type": "Organization", "name": "AWS Student Builder Group" },
+  "datePublished": "2026-07-12",
+  "image": "/assets/images/blog/cloud-guide-hero-placeholder.jpg",
+  "publisher": { "@type": "Organization", "name": "AWS Student Builder Group" }
+}
+</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="article-1.css">
+</head>
+
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="/blog.html">
+        AWS Student Builder Group
+      </a>
+      <a class="back-link" href="/blog.html">&larr; All articles</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ================= HERO ================= -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <p class="eyebrow">CLOUD FUNDAMENTALS</p>
+        <h1 id="hero-title">What Actually Runs the Internet?</h1>
+        <p class="hero-subtitle">A ground-up explanation of cloud computing and AWS — for students who want to actually
+          understand it, not just memorize it for an interview.</p>
+
+        <div class="hero-meta">
+          <div class="meta-item">
+            <span class="meta-label">Author</span>
+            <span class="meta-value">AWS Student Builder Group</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Published</span>
+            <span class="meta-value"><time datetime="2026-07-12">July 12, 2026</time></span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Reading time</span>
+            <span class="meta-value">14 min</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Category</span>
+            <span class="meta-value">Cloud Fundamentals</span>
+          </div>
+        </div>
+
+        <ul class="tag-list" aria-label="Tags">
+          <li class="tag">Cloud Computing</li>
+          <li class="tag">AWS</li>
+          <li class="tag">Career</li>
+          <li class="tag">Beginner Friendly</li>
+        </ul>
+      </div>
+
+      <figure class="hero-figure">
+        <div class="hero-illustration" role="img"
+          aria-label="Illustration of a global network of connected servers representing cloud infrastructure">
+          <img src="../assets/article-image/article-1.png" alt="Hero illustration — global server network graphic"
+            style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        <figcaption>Every request you send online lands on a machine somewhere. This is the story of whose machine, and
+          why it works.</figcaption>
+      </figure>
+    </section>
+
+    <div class="content-shell">
+
+      <!-- ================= TOC ================= -->
+      <aside class="toc" aria-labelledby="toc-title">
+        <div class="toc-sticky">
+          <p id="toc-title" class="toc-title">On this page</p>
+          <nav aria-label="Table of contents">
+            <ol>
+              <li><a href="#why-cloud-exists">Why the cloud exists</a></li>
+              <li><a href="#what-is-cloud">What cloud computing actually is</a></li>
+              <li><a href="#evolution">How we got here</a></li>
+              <li><a href="#real-life">Cloud in the apps you use</a></li>
+              <li><a href="#service-models">IaaS, PaaS, SaaS</a></li>
+              <li><a href="#deployment-models">Deployment models</a></li>
+              <li><a href="#providers">AWS vs Azure vs GCP</a></li>
+              <li><a href="#why-aws">Why AWS leads</a></li>
+              <li><a href="#services">Core AWS services</a></li>
+              <li><a href="#careers">Career paths</a></li>
+              <li><a href="#roadmap">Learning roadmap</a></li>
+              <li><a href="#future">Where cloud is headed</a></li>
+              <li><a href="#takeaways">Key takeaways</a></li>
+            </ol>
+          </nav>
+        </div>
+      </aside>
+
+      <article class="article-body">
+
+        <!-- ================= OPENING HOOK ================= -->
+        <section aria-labelledby="hook-heading">
+          <p class="lede">Right now, somewhere in the world, someone is pressing play on a Netflix episode, someone else
+            is sending a voice note on WhatsApp, and a third person is asking ChatGPT to fix their code. None of them
+            are thinking about where any of this is actually <em>happening</em>. They just expect it to work. Instantly,
+            every time, from any country, on any device.</p>
+
+          <p>That expectation is new. Not the technology — the expectation. Twenty years ago, if a website got too
+            popular, it crashed. A single college registration portal could buckle under a few thousand students trying
+            to log in at once. Today, Amazon can sell tens of millions of items in a single day during a sale, YouTube
+            can stream to over two billion logged-in users a month, and the whole thing barely makes the news anymore
+            because it just... works.</p>
+
+          <p>So what changed? It's not that engineers got smarter overnight, or that the internet suddenly got faster
+            everywhere. What changed is <strong>who owns the computers</strong>, and how those computers are organized.
+            That single shift is what this article is really about, and by the end of it, you'll understand cloud
+            computing well enough to explain it to someone else — not recite a definition, actually explain it.</p>
+        </section>
+
+        <!-- ================= WHY CLOUD EXISTS ================= -->
+        <section id="why-cloud-exists" aria-labelledby="why-cloud-heading">
+          <h2 id="why-cloud-heading">Why cloud computing exists</h2>
+          <p>To understand why the cloud exists, you have to understand the pain it replaced. Picture a college project,
+            except the stakes are a real company and real customers.</p>
+
+          <p>Before cloud computing was mainstream, if a company wanted to run a website or an app, it had to buy
+            physical servers. Not rent — buy. That meant:</p>
+
+          <ul>
+            <li><strong>Massive upfront cost.</strong> A single rack of servers could cost lakhs of rupees before a
+              single customer had even signed up. You were betting real money on a product that didn't exist yet.</li>
+            <li><strong>Someone had to maintain it.</strong> Servers need power, cooling, physical security, and a team
+              to fix them when a hard disk fails at 2 a.m. That's a full engineering team just to keep the lights on —
+              before anyone writes a line of product code.</li>
+            <li><strong>Scaling was slow and physical.</strong> If your app suddenly went viral, you couldn't just "add
+              more power" — you had to order new hardware, wait for it to be delivered, physically install it, and
+              configure it. That could take weeks. Meanwhile your app is down and your users are leaving.</li>
+            <li><strong>Idle capacity was wasted money.</strong> Most businesses don't get consistent traffic. An
+              e-commerce site might get 10x its normal traffic during a festival sale and almost nothing on a random
+              Tuesday. But you still had to own enough servers for the busiest day of the year — and let them sit mostly
+              idle the rest of the time.</li>
+            <li><strong>Downtime was catastrophic and hard to prevent.</strong> If your one data center lost power or
+              caught fire, your entire business went offline. There was no easy way to be in two places at once.</li>
+            <li><strong>Going global was a nightmare.</strong> Want users in Singapore to get fast load times? You
+              needed a physical data center in or near Singapore. That meant real estate, staff, and infrastructure on
+              another continent.</li>
+          </ul>
+
+          <div class="callout callout-note">
+            <p class="callout-title">Did you know?</p>
+            <p>Amazon originally built much of its internal cloud infrastructure just to handle its own retail traffic
+              spikes, especially around events like the holiday shopping season. They realized other companies had the
+              exact same problem — and that internal infrastructure became the foundation of AWS, launched in 2006.</p>
+          </div>
+
+          <p>Cloud computing solves every one of these problems by flipping the model. Instead of a company owning
+            physical machines, it rents computing power from a provider — like AWS — that has already built enormous
+            data centers around the world. You use exactly what you need, when you need it, and you stop using it the
+            moment you don't. No warehouse of hardware. No 2 a.m. disk-failure emergencies. No multi-week wait to scale
+            up.</p>
+        </section>
+
+        <!-- ================= WHAT IS CLOUD ================= -->
+        <section id="what-is-cloud" aria-labelledby="what-is-cloud-heading">
+          <h2 id="what-is-cloud-heading">So, what is cloud computing — really?</h2>
+          <p>Here's the least useful way to explain cloud computing: "It's the delivery of computing services over the
+            internet." True, technically, and completely unhelpful. You'd forget that sentence in ten minutes.</p>
+
+          <p>Here's a better way to think about it: <strong>cloud computing is electricity for computers.</strong></p>
+
+          <p>A hundred years ago, if a factory wanted power, it had to build and run its own power generator on-site.
+            That required capital, engineers, fuel, and maintenance — before it made a single product. Then centralized
+            power grids showed up. Now the factory just plugs into a wall socket, pays for exactly the electricity it
+            uses, and never thinks about turbines again. It can scale a new production line up or down without worrying
+            about generator capacity.</p>
+
+          <p>Cloud computing did the same thing for computing power, storage, networking, and databases. Instead of
+            every company running its own "generator" (data center), they plug into a shared, professionally-run grid
+            (AWS, Azure, Google Cloud) and pay only for what they consume. Need more computing power for a big sale?
+            Turn the dial up. Traffic drops at 3 a.m.? Turn it back down, and stop paying for it.</p>
+
+          <p>Another useful lens: think about how you watch movies today versus how your parents did. They likely bought
+            or rented a physical DVD — one object, tied to one place, with a fixed cost whether they watched it once or
+            ten times. You open Spotify or Netflix and access a massive, shared, always-updated library, paying a
+            subscription instead of owning any of it. That shift — from <em>owning a fixed thing</em> to <em>accessing a
+              flexible service</em> — is the exact same shift that happened with computing infrastructure. Companies
+            stopped owning fixed servers and started accessing flexible cloud services.</p>
+        </section>
+
+        <!-- ================= EVOLUTION ================= -->
+        <section id="evolution" aria-labelledby="evolution-heading">
+          <h2 id="evolution-heading">How we got here: the evolution of computing</h2>
+          <p>Cloud computing didn't appear out of nowhere. It's the latest step in a fairly logical chain of events.</p>
+
+          <div class="timeline" role="list">
+            <div class="timeline-item" role="listitem">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <h3>Mainframes (1950s–70s)</h3>
+                <p>Enormous, room-sized computers owned by governments and large corporations. Multiple people shared
+                  time on one machine because computers were too expensive for individuals or small companies to own.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item" role="listitem">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <h3>Personal computers (1980s–90s)</h3>
+                <p>Computing became individually owned. Every household or office could have its own machine, but each
+                  one was isolated — no easy way for computers to talk to each other at scale yet.</p>
+              </div>
+            </div>
+            <div class="timeline-item" role="listitem">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <h3>The internet (1990s–2000s)</h3>
+                <p>Computers could now talk to each other globally. Websites and early web apps emerged, but each
+                  company still had to run its own physical servers to be online.</p>
+              </div>
+            </div>
+            <div class="timeline-item" role="listitem">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <h3>Virtualization (2000s)</h3>
+                <p>Engineers figured out how to split one physical server into multiple independent "virtual" servers.
+                  This was the key technical breakthrough that made cloud computing economically possible — one machine
+                  could now safely serve many customers at once.</p>
+              </div>
+            </div>
+            <div class="timeline-item" role="listitem">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <h3>Cloud computing (2006–present)</h3>
+                <p>AWS launches its first services in 2006. Renting computing power by the hour becomes possible for
+                  anyone with a credit card — a student, a startup, or a Fortune 500 company, on equal footing.</p>
+              </div>
+            </div>
+            <div class="timeline-item" role="listitem">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <h3>AI + cloud (2020s–now)</h3>
+                <p>Training and running large AI models requires enormous, specialized computing power that almost
+                  nobody can own outright. The cloud becomes the only realistic way most companies and researchers
+                  access that scale.</p>
+              </div>
+            </div>
+            <div class="timeline-item" role="listitem">
+              <div class="timeline-marker" aria-hidden="true"></div>
+              <div class="timeline-content">
+                <h3>What's next</h3>
+                <p>Computing keeps moving closer to users (edge computing), gets more automated (AI agents managing
+                  infrastructure), and gets more efficient (green data centers). More on this later.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= REAL LIFE ================= -->
+        <section id="real-life" aria-labelledby="real-life-heading">
+          <h2 id="real-life-heading">The apps on your phone, explained</h2>
+          <p>This is where cloud computing stops being abstract. Every app below runs on cloud infrastructure — most of
+            it on AWS. Here's what's actually happening behind the icon you tap.</p>
+
+          <div class="card-grid">
+            <div class="info-card">
+              <h3>Netflix</h3>
+              <p>Netflix runs almost entirely on AWS. When you hit play, you're not streaming from one server — you're
+                pulled from a nearby content delivery point so the video starts instantly, with the system constantly
+                adjusting quality based on your connection.</p>
+            </div>
+            <div class="info-card">
+              <h3>Spotify</h3>
+              <p>Every playlist recommendation you get is generated by data pipelines processing billions of listening
+                events, largely on cloud infrastructure, to figure out what song you're likely to want next.</p>
+            </div>
+            <div class="info-card">
+              <h3>Uber</h3>
+              <p>Matching a rider to a driver in real time, calculating dynamic pricing, and tracking GPS locations for
+                millions of trips simultaneously all depends on cloud servers that scale up during rush hour and down
+                late at night.</p>
+            </div>
+            <div class="info-card">
+              <h3>Amazon</h3>
+              <p>The same cloud that Amazon.com's warehouses and checkout systems run on is what it began selling to
+                outside companies — that offshoot became AWS itself.</p>
+            </div>
+            <div class="info-card">
+              <h3>Google Photos</h3>
+              <p>Every photo you back up is stored redundantly across multiple data centers, and cloud-based machine
+                learning is what lets you search "beach" and instantly find every beach photo you've ever taken.</p>
+            </div>
+            <div class="info-card">
+              <h3>ChatGPT</h3>
+              <p>Generating a response involves running a massive model on specialized cloud hardware (GPUs), for
+                millions of simultaneous conversations, none of which could happen on a personal computer.</p>
+            </div>
+            <div class="info-card">
+              <h3>Zoom</h3>
+              <p>Cloud servers relay and, when needed, record your video and audio streams in real time, dynamically
+                routing traffic through the data center closest to you to keep latency low.</p>
+            </div>
+            <div class="info-card">
+              <h3>GitHub</h3>
+              <p>Every repository, pull request, and CI/CD pipeline run for millions of developers is hosted and
+                processed on cloud infrastructure that scales instantly when a large open-source project suddenly gets
+                attention.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= SERVICE MODELS ================= -->
+        <section id="service-models" aria-labelledby="service-models-heading">
+          <h2 id="service-models-heading">IaaS, PaaS, SaaS: how much do you want to manage?</h2>
+          <p>Cloud services aren't all the same shape. They differ in how much of the underlying work the provider
+            handles for you versus how much you handle yourself. Think of it like choosing how you get a pizza: buy raw
+            ingredients and cook it yourself, buy a half-baked pizza and just finish it at home, or just order a
+            finished pizza and eat.</p>
+
+          <div class="table-wrapper">
+            <table>
+              <caption>Cloud service models compared</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Model</th>
+                  <th scope="col">What you manage</th>
+                  <th scope="col">What the provider manages</th>
+                  <th scope="col">Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">IaaS<br><span class="th-sub">Infrastructure as a Service</span></th>
+                  <td>OS, apps, data, runtime</td>
+                  <td>Physical servers, networking, storage hardware</td>
+                  <td>Amazon EC2 — you get a virtual computer and install whatever you want on it</td>
+                </tr>
+                <tr>
+                  <th scope="row">PaaS<br><span class="th-sub">Platform as a Service</span></th>
+                  <td>Your application code and data</td>
+                  <td>Servers, OS, runtime, scaling</td>
+                  <td>AWS Elastic Beanstalk — you upload code, the platform handles deployment and scaling</td>
+                </tr>
+                <tr>
+                  <th scope="row">SaaS<br><span class="th-sub">Software as a Service</span></th>
+                  <td>Just your data and settings</td>
+                  <td>Literally everything else</td>
+                  <td>Gmail, Slack, Zoom — you just log in and use it</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>As a cloud engineer or student learning AWS, you'll spend most of your early time in IaaS territory —
+            services like EC2 and S3 — because that's where you actually learn how the underlying pieces fit together.
+            PaaS and SaaS come more naturally once you understand what they're abstracting away.</p>
+        </section>
+
+        <!-- ================= DEPLOYMENT MODELS ================= -->
+        <section id="deployment-models" aria-labelledby="deployment-models-heading">
+          <h2 id="deployment-models-heading">Public, private, hybrid, multi-cloud</h2>
+          <p>Beyond service models, there's also a question of <em>where</em> the infrastructure physically lives and
+            who else shares it.</p>
+
+          <dl class="definition-grid">
+            <div class="definition-item">
+              <dt>Public Cloud</dt>
+              <dd>Infrastructure owned by a provider like AWS and shared across many customers, isolated from each other
+                logically. Cheapest and most common — this is what most startups and students use.</dd>
+            </div>
+            <div class="definition-item">
+              <dt>Private Cloud</dt>
+              <dd>Infrastructure dedicated to a single organization, sometimes on their own premises. Common in banks,
+                government, and healthcare where regulations demand tighter control.</dd>
+            </div>
+            <div class="definition-item">
+              <dt>Hybrid Cloud</dt>
+              <dd>A mix of private infrastructure and public cloud, connected together. A hospital might keep patient
+                records on a private system but use public cloud for its website and appointment booking.</dd>
+            </div>
+            <div class="definition-item">
+              <dt>Multi-Cloud</dt>
+              <dd>Using more than one public cloud provider at once — say, AWS for compute and Google Cloud for AI tools
+                — usually to avoid depending entirely on one vendor.</dd>
+            </div>
+          </dl>
+        </section>
+
+        <!-- ================= PROVIDERS ================= -->
+        <section id="providers" aria-labelledby="providers-heading">
+          <h2 id="providers-heading">The major cloud providers</h2>
+          <p>Three companies dominate global cloud infrastructure. It's worth understanding all three, even if you end
+            up specializing in one.</p>
+
+          <div class="card-grid three-col">
+            <div class="info-card provider-card">
+              <h3>Amazon Web Services (AWS)</h3>
+              <p>The first mover and current market leader. Known for the widest breadth of services, the largest global
+                infrastructure footprint, and the deepest enterprise adoption. Most job postings for "cloud engineer" in
+                India and globally list AWS first.</p>
+            </div>
+            <div class="info-card provider-card">
+              <h3>Microsoft Azure</h3>
+              <p>Strong where companies are already heavily invested in Microsoft tools — Windows Server, Active
+                Directory, Office 365. A natural choice for large traditional enterprises already inside the Microsoft
+                ecosystem.</p>
+            </div>
+            <div class="info-card provider-card">
+              <h3>Google Cloud (GCP)</h3>
+              <p>Favored for data analytics, machine learning, and Kubernetes — Google essentially invented Kubernetes
+                internally. Popular with startups doing heavy data science work.</p>
+            </div>
+          </div>
+          <p>None of these is objectively "the best" — they're strong in different places. But for a student deciding
+            where to start, AWS is the pragmatic first choice simply because of how much of the industry runs on it and
+            how much learning material and community support exists around it.</p>
+        </section>
+
+        <!-- ================= WHY AWS LEADS ================= -->
+        <section id="why-aws" aria-labelledby="why-aws-heading">
+          <h2 id="why-aws-heading">Why AWS leads the market</h2>
+          <p>AWS had roughly a five-year head start on serious competition, and that early lead compounded in a few
+            specific ways:</p>
+
+          <ul class="checklist">
+            <li><strong>Global infrastructure.</strong> AWS operates data centers across dozens of geographic regions
+              worldwide, meaning a company can put its application physically close to users almost anywhere.</li>
+            <li><strong>Breadth of services.</strong> AWS offers 200+ services covering everything from basic storage to
+              quantum computing research tools — most companies never need to look elsewhere.</li>
+            <li><strong>Reliability at scale.</strong> AWS infrastructure has been battle-tested by some of the
+              highest-traffic applications on the planet, including Amazon's own retail business.</li>
+            <li><strong>Security and compliance.</strong> Extensive certifications (ISO, SOC, HIPAA-eligible services,
+              etc.) that let regulated industries like finance and healthcare adopt AWS confidently.</li>
+            <li><strong>Startup ecosystem.</strong> Programs offering free credits to startups and students lower the
+              barrier to entry, which snowballs into more engineers learning AWS first.</li>
+            <li><strong>Certifications and community.</strong> A well-defined certification path (Cloud Practitioner →
+              Associate → Professional → Specialty) gives students a clear, recognized way to prove their skills to
+              employers.</li>
+          </ul>
+
+          <blockquote class="pull-quote">
+            <p>The technology matters less than the ecosystem around it. AWS didn't just build infrastructure — it built
+              the on-ramp that got an entire generation of engineers learning on its platform first.</p>
+          </blockquote>
+        </section>
+
+        <!-- ================= SERVICES ================= -->
+        <section id="services" aria-labelledby="services-heading">
+          <h2 id="services-heading">Core AWS services, explained without the jargon</h2>
+          <p>You do not need to learn all 200+ AWS services. You need to deeply understand a core set that shows up in
+            almost every real system. Here they are, explained the way you'd want a senior engineer to explain them to
+            you.</p>
+
+          <div class="service-list">
+
+            <div class="service-card">
+              <h3>Amazon EC2 <span class="service-tag">Compute</span></h3>
+              <p class="analogy">Analogy: renting a computer by the hour instead of buying one.</p>
+              <p>EC2 (Elastic Compute Cloud) gives you a virtual server you can configure with any operating system,
+                install any software on, and turn off the moment you're done paying for it.</p>
+              <p class="use-case"><strong>Real use:</strong> Netflix runs much of its backend processing on fleets of
+                EC2 instances that scale up automatically during peak viewing hours.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Amazon S3 <span class="service-tag">Storage</span></h3>
+              <p class="analogy">Analogy: an infinitely large, infinitely reliable storage locker accessible from
+                anywhere.</p>
+              <p>S3 (Simple Storage Service) stores files — images, videos, backups, logs — as "objects," durably and
+                redundantly across multiple facilities.</p>
+              <p class="use-case"><strong>Real use:</strong> Airbnb stores property photos, and Slack stores every file
+                ever shared in a workspace, on S3.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>IAM <span class="service-tag">Security</span></h3>
+              <p class="analogy">Analogy: the keycard system for a building — who's allowed into which rooms.</p>
+              <p>IAM (Identity and Access Management) controls exactly who — a person, a service, another piece of
+                software — can access which AWS resources, and what they're allowed to do there.</p>
+              <p class="use-case"><strong>Real use:</strong> A company might let its data science team read from a
+                database but only let its backend service write to it — IAM enforces that boundary.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>AWS Lambda <span class="service-tag">Serverless</span></h3>
+              <p class="analogy">Analogy: paying an electrician only for the exact minutes they work, instead of keeping
+                one on salary all year.</p>
+              <p>Lambda runs your code in response to an event — a file upload, an API call — without you ever
+                provisioning or managing a server. You're billed only for actual execution time.</p>
+              <p class="use-case"><strong>Real use:</strong> Automatically resizing an image the moment it's uploaded to
+                S3, without any server running idle waiting for that to happen.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Amazon CloudFront <span class="service-tag">Networking</span></h3>
+              <p class="analogy">Analogy: local warehouses near every city instead of shipping every order from one
+                central factory.</p>
+              <p>CloudFront is a content delivery network (CDN) that caches content at locations physically close to
+                users, so a website loads fast whether you're in Delhi or Detroit.</p>
+              <p class="use-case"><strong>Real use:</strong> Streaming platforms use CloudFront so video doesn't have to
+                travel across the globe every single time it's watched.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Amazon Route 53 <span class="service-tag">Networking</span></h3>
+              <p class="analogy">Analogy: the phonebook of the internet.</p>
+              <p>Route 53 is a DNS service that translates human-readable domain names, like example.com, into the IP
+                addresses computers actually use to find each other.</p>
+              <p class="use-case"><strong>Real use:</strong> Routing users to the nearest healthy server automatically,
+                and rerouting them if that server goes down.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Amazon RDS <span class="service-tag">Database</span></h3>
+              <p class="analogy">Analogy: hiring a database administrator you never have to onboard.</p>
+              <p>RDS (Relational Database Service) manages databases like MySQL or PostgreSQL for you — handling
+                backups, patching, and failover automatically.</p>
+              <p class="use-case"><strong>Real use:</strong> A ride-hailing app storing structured trip and payment
+                records reliably without an in-house DBA team.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Amazon VPC <span class="service-tag">Networking</span></h3>
+              <p class="analogy">Analogy: your own private, walled-off section of AWS's network.</p>
+              <p>A VPC (Virtual Private Cloud) is an isolated network you fully control — deciding what can talk to
+                what, and what's exposed to the public internet at all.</p>
+              <p class="use-case"><strong>Real use:</strong> Keeping a database completely unreachable from the internet
+                while still letting your application servers talk to it.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Amazon CloudWatch <span class="service-tag">Monitoring</span></h3>
+              <p class="analogy">Analogy: the dashboard lights in a car, telling you when something's about to go wrong.
+              </p>
+              <p>CloudWatch collects metrics and logs from your AWS resources and can alert you automatically when
+                something looks abnormal.</p>
+              <p class="use-case"><strong>Real use:</strong> Getting paged the moment server response times spike,
+                before customers even notice.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Elastic Load Balancer <span class="service-tag">Networking</span></h3>
+              <p class="analogy">Analogy: a traffic cop distributing cars evenly across open lanes.</p>
+              <p>A load balancer spreads incoming traffic across multiple servers so no single one gets overwhelmed, and
+                reroutes traffic away from unhealthy servers automatically.</p>
+              <p class="use-case"><strong>Real use:</strong> An e-commerce site during a flash sale, spreading a traffic
+                surge across dozens of servers instead of crashing one.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Auto Scaling <span class="service-tag">Compute</span></h3>
+              <p class="analogy">Analogy: automatically calling in extra staff when a restaurant suddenly gets busy,
+                then sending them home when it's quiet.</p>
+              <p>Auto Scaling adds or removes servers automatically based on real-time demand, keeping performance
+                stable without paying for unused capacity.</p>
+              <p class="use-case"><strong>Real use:</strong> A food delivery app scaling up around dinnertime and back
+                down late at night, every single day, without a human touching a dial.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>API Gateway <span class="service-tag">Networking</span></h3>
+              <p class="analogy">Analogy: the reception desk that routes every visitor to the right department.</p>
+              <p>API Gateway manages, secures, and routes incoming API requests to the right backend service, often
+                paired with Lambda for fully serverless applications.</p>
+              <p class="use-case"><strong>Real use:</strong> A mobile app's every request — login, search, checkout —
+                passing through a single managed entry point.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Amazon DynamoDB <span class="service-tag">Database</span></h3>
+              <p class="analogy">Analogy: a filing system built for speed at massive scale, not complex relationships.
+              </p>
+              <p>DynamoDB is a fully managed NoSQL database built to handle huge volumes of reads and writes with very
+                low, predictable latency.</p>
+              <p class="use-case"><strong>Real use:</strong> Amazon's own shopping cart system runs on DynamoDB to
+                handle enormous concurrent traffic reliably.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Amazon ECS &amp; EKS <span class="service-tag">Containers</span></h3>
+              <p class="analogy">Analogy: a shipping port that knows exactly which container goes on which ship.</p>
+              <p>ECS and EKS run containerized applications (packaged with Docker) at scale — EKS specifically runs the
+                popular Kubernetes system on AWS's infrastructure.</p>
+              <p class="use-case"><strong>Real use:</strong> Companies running dozens of independent microservices, each
+                in its own container, orchestrated automatically.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Amazon Bedrock <span class="service-tag">AI</span></h3>
+              <p class="analogy">Analogy: an app store for pre-trained AI models you can plug into your product.</p>
+              <p>Bedrock gives developers API access to foundation models from multiple AI companies, without needing to
+                train or host models yourself.</p>
+              <p class="use-case"><strong>Real use:</strong> Adding an AI chatbot or document summarizer into a product
+                without building or hosting a model from scratch.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>Amazon SageMaker <span class="service-tag">AI</span></h3>
+              <p class="analogy">Analogy: a fully-equipped lab for building your own AI model instead of using someone
+                else's.</p>
+              <p>SageMaker provides tools to build, train, and deploy custom machine learning models at scale, handling
+                the heavy infrastructure work behind the scenes.</p>
+              <p class="use-case"><strong>Real use:</strong> A fintech company training a custom fraud-detection model
+                on its own transaction data.</p>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ================= CAREERS ================= -->
+        <section id="careers" aria-labelledby="careers-heading">
+          <h2 id="careers-heading">Career paths in cloud computing</h2>
+          <p>"Cloud" isn't one job — it's an entire career universe. Here's an honest breakdown of the main paths and
+            what they actually involve day to day.</p>
+
+          <div class="career-list">
+            <details class="career-item">
+              <summary>Cloud Engineer</summary>
+              <p><strong>Does:</strong> Builds and maintains the cloud infrastructure applications run on — servers,
+                networking, storage.</p>
+              <p><strong>Skills:</strong> Linux, networking basics, one cloud platform (AWS/Azure/GCP), scripting
+                (Python/Bash).</p>
+              <p><strong>Tools:</strong> EC2, VPC, CloudFormation, Terraform.</p>
+            </details>
+            <details class="career-item">
+              <summary>Solutions Architect</summary>
+              <p><strong>Does:</strong> Designs the overall system architecture — deciding which services to use and how
+                they connect, balancing cost, performance, and security.</p>
+              <p><strong>Skills:</strong> Broad knowledge across many cloud services, strong system-design thinking,
+                client communication.</p>
+              <p><strong>Tools:</strong> Architecture diagramming tools, the full AWS service catalog.</p>
+            </details>
+            <details class="career-item">
+              <summary>DevOps Engineer</summary>
+              <p><strong>Does:</strong> Builds the pipelines that take code from a developer's laptop to production
+                automatically and safely.</p>
+              <p><strong>Skills:</strong> CI/CD tools, containerization, infrastructure as code, monitoring.</p>
+              <p><strong>Tools:</strong> Docker, Kubernetes, Jenkins/GitHub Actions, Terraform.</p>
+            </details>
+            <details class="career-item">
+              <summary>Platform Engineer</summary>
+              <p><strong>Does:</strong> Builds internal tools and platforms that make it easier for other engineers
+                inside a company to deploy and manage their own services.</p>
+              <p><strong>Skills:</strong> Deep infrastructure knowledge plus strong software engineering.</p>
+              <p><strong>Tools:</strong> Kubernetes, internal developer platforms, Terraform.</p>
+            </details>
+            <details class="career-item">
+              <summary>Cloud Security Engineer</summary>
+              <p><strong>Does:</strong> Protects cloud infrastructure from misconfiguration, breaches, and unauthorized
+                access.</p>
+              <p><strong>Skills:</strong> IAM policy design, network security, compliance frameworks.</p>
+              <p><strong>Tools:</strong> AWS IAM, GuardDuty, Security Hub.</p>
+            </details>
+            <details class="career-item">
+              <summary>Data Engineer</summary>
+              <p><strong>Does:</strong> Builds pipelines that move and transform large volumes of data so analysts and
+                ML models can use it.</p>
+              <p><strong>Skills:</strong> SQL, Python, distributed data systems.</p>
+              <p><strong>Tools:</strong> AWS Glue, Redshift, Apache Spark.</p>
+            </details>
+            <details class="career-item">
+              <summary>Machine Learning / AI Engineer</summary>
+              <p><strong>Does:</strong> Builds, trains, and deploys machine learning models into production systems.</p>
+              <p><strong>Skills:</strong> Python, ML frameworks, statistics, cloud ML tooling.</p>
+              <p><strong>Tools:</strong> SageMaker, Bedrock, PyTorch/TensorFlow.</p>
+            </details>
+            <details class="career-item">
+              <summary>Site Reliability Engineer (SRE)</summary>
+              <p><strong>Does:</strong> Keeps large systems reliable and fast, and leads the response when something
+                breaks in production.</p>
+              <p><strong>Skills:</strong> Systems thinking, incident response, automation, monitoring.</p>
+              <p><strong>Tools:</strong> CloudWatch, PagerDuty, Kubernetes.</p>
+            </details>
+            <details class="career-item">
+              <summary>Cloud Consultant</summary>
+              <p><strong>Does:</strong> Advises companies migrating to the cloud or optimizing what they already have.
+              </p>
+              <p><strong>Skills:</strong> Broad cloud knowledge, business communication, cost optimization.</p>
+              <p><strong>Tools:</strong> AWS Well-Architected Framework, cost management tools.</p>
+            </details>
+            <details class="career-item">
+              <summary>Cloud Support Engineer</summary>
+              <p><strong>Does:</strong> Helps customers troubleshoot and resolve issues with their cloud infrastructure.
+              </p>
+              <p><strong>Skills:</strong> Strong troubleshooting instincts, communication, breadth across services.</p>
+              <p><strong>Tools:</strong> The full AWS console, ticketing systems, CloudWatch logs.</p>
+            </details>
+          </div>
+
+          <div class="callout callout-tip">
+            <p class="callout-title">Tip</p>
+            <p>You don't have to pick a lane immediately. Most students start broad — learn core AWS fundamentals, get
+              comfortable with Linux and networking — and specialize once they discover what actually excites them.</p>
+          </div>
+        </section>
+
+        <!-- ================= ROADMAP ================= -->
+        <section id="roadmap" aria-labelledby="roadmap-heading">
+          <h2 id="roadmap-heading">Your learning roadmap</h2>
+          <p>This is the order most working cloud engineers would actually recommend — not the order that looks
+            impressive on a resume, but the order that actually builds real understanding, one layer on top of the last.
+          </p>
+
+          <ol class="roadmap" aria-label="Cloud learning roadmap, step by step">
+            <li><span class="roadmap-step">Computer Basics</span></li>
+            <li><span class="roadmap-step">Linux</span></li>
+            <li><span class="roadmap-step">Networking</span></li>
+            <li><span class="roadmap-step">Git</span></li>
+            <li><span class="roadmap-step">GitHub</span></li>
+            <li><span class="roadmap-step">Programming (Python recommended)</span></li>
+            <li><span class="roadmap-step">Cloud Fundamentals</span></li>
+            <li><span class="roadmap-step">AWS Core Services</span></li>
+            <li><span class="roadmap-step">IAM</span></li>
+            <li><span class="roadmap-step">EC2</span></li>
+            <li><span class="roadmap-step">S3</span></li>
+            <li><span class="roadmap-step">VPC</span></li>
+            <li><span class="roadmap-step">RDS</span></li>
+            <li><span class="roadmap-step">Monitoring (CloudWatch)</span></li>
+            <li><span class="roadmap-step">DevOps Basics</span></li>
+            <li><span class="roadmap-step">Docker</span></li>
+            <li><span class="roadmap-step">Kubernetes</span></li>
+            <li><span class="roadmap-step">Terraform</span></li>
+            <li><span class="roadmap-step">Serverless (Lambda)</span></li>
+            <li><span class="roadmap-step">Build real projects</span></li>
+            <li><span class="roadmap-step">Certifications</span></li>
+            <li><span class="roadmap-step">Internships</span></li>
+            <li><span class="roadmap-step">Job Ready</span></li>
+          </ol>
+
+          <div class="callout callout-warning">
+            <p class="callout-title">A warning, honestly</p>
+            <p>Don't try to learn all 200+ AWS services before building anything. The most common mistake students make
+              is treating this roadmap as a checklist to memorize instead of a sequence to build with. Deploy something
+              small after every two or three steps — that's what actually makes it stick.</p>
+          </div>
+        </section>
+
+        <!-- ================= FUTURE ================= -->
+        <section id="future" aria-labelledby="future-heading">
+          <h2 id="future-heading">Where cloud computing is headed</h2>
+          <p>The cloud isn't a finished technology — it's still actively being reshaped. Here's what's changing right
+            now, and why it matters if you're just starting out.</p>
+
+          <ul class="checklist">
+            <li><strong>Generative AI.</strong> Cloud providers are racing to make it easy to build on top of large AI
+              models, meaning "AI engineer" and "cloud engineer" skill sets are merging fast.</li>
+            <li><strong>Serverless.</strong> More workloads are moving toward services like Lambda, where you never
+              think about servers at all — just code and events.</li>
+            <li><strong>Edge computing.</strong> Processing is moving physically closer to users — think smart cameras
+              or IoT sensors doing computation on-device instead of round-tripping to a distant data center.</li>
+            <li><strong>IoT.</strong> Billions of connected devices — sensors, appliances, vehicles — all need cloud
+              backends to collect and process their data.</li>
+            <li><strong>Quantum computing.</strong> Still early, but cloud providers already offer quantum computing
+              access as a service, letting researchers experiment without owning a quantum computer.</li>
+            <li><strong>Green cloud.</strong> Data centers consume enormous power, and providers are under real pressure
+              — and making real commitments — to run on renewable energy.</li>
+            <li><strong>Multi-cloud strategy.</strong> More companies are deliberately spreading workloads across
+              providers to avoid being locked into one vendor.</li>
+            <li><strong>Platform engineering.</strong> A growing discipline focused on making internal cloud tooling so
+              smooth that other engineers barely have to think about infrastructure at all.</li>
+            <li><strong>Cloud security automation.</strong> As infrastructure grows more complex, security tooling is
+              shifting toward automatically detecting and fixing misconfigurations rather than relying on manual review.
+            </li>
+            <li><strong>AI agents managing infrastructure.</strong> Early but real — AI systems that can independently
+              monitor, diagnose, and even remediate infrastructure issues without a human paged at 3 a.m.</li>
+          </ul>
+
+          <p>None of these are reasons to panic about being "behind." They're reasons to be excited — you're entering
+            this field at a moment when the fundamentals are stable enough to learn properly, and the frontier is still
+            wide open.</p>
+        </section>
+
+        <!-- ================= MINI QUIZ ================= -->
+        <section aria-labelledby="quiz-heading">
+          <h2 id="quiz-heading">Quick check: did it land?</h2>
+          <div class="quiz-box">
+            <details class="quiz-item">
+              <summary>Why can Amazon handle a massive sale-day traffic spike without crashing?</summary>
+              <p>Because AWS's Auto Scaling and load balancing services detect rising demand and automatically spin up
+                additional servers to absorb it, then scale back down once traffic normalizes — no manual hardware
+                purchase required.</p>
+            </details>
+            <details class="quiz-item">
+              <summary>What's the actual difference between IaaS and SaaS?</summary>
+              <p>IaaS gives you raw infrastructure (like a virtual server) that you configure yourself. SaaS gives you a
+                finished product you simply log into and use — the provider manages everything underneath it.</p>
+            </details>
+            <details class="quiz-item">
+              <summary>Why might a company choose multi-cloud instead of sticking with one provider?</summary>
+              <p>To avoid vendor lock-in, take advantage of specific strengths of different providers (e.g., GCP for
+                data analytics), and reduce the risk of a single provider's outage taking down everything.</p>
+            </details>
+          </div>
+        </section>
+
+        <!-- ================= TAKEAWAYS ================= -->
+        <section id="takeaways" aria-labelledby="takeaways-heading">
+          <h2 id="takeaways-heading">Key takeaways</h2>
+          <ul class="checklist">
+            <li>Cloud computing replaced company-owned physical servers with rented, on-demand infrastructure — solving
+              cost, scalability, and reliability problems all at once.</li>
+            <li>Almost every app you use daily runs, at least partly, on cloud infrastructure — most of it on AWS.</li>
+            <li>Cloud services come in different shapes (IaaS, PaaS, SaaS) depending on how much you want to manage
+              yourself.</li>
+            <li>AWS leads the market due to its head start, breadth of services, global infrastructure, and the
+              ecosystem built around it.</li>
+            <li>A small set of core services — EC2, S3, IAM, Lambda, VPC, RDS — covers the vast majority of what you
+              need to start building real things.</li>
+            <li>Cloud careers span far beyond "cloud engineer" — security, data, ML, DevOps, and architecture all live
+              inside this space.</li>
+            <li>The best way to learn is sequential and hands-on: fundamentals first, then AWS core services, then real
+              projects.</li>
+          </ul>
+        </section>
+
+        <!-- ================= CONCLUSION ================= -->
+        <section aria-labelledby="conclusion-heading">
+          <h2 id="conclusion-heading">Where you go from here</h2>
+          <p>You now understand something that most people who use the internet every single day never bother to learn.
+            Not the marketing version — the actual mechanics of why things work the way they do.</p>
+          <p>That understanding is the real starting point. The next step isn't memorizing more service names — it's
+            opening an AWS account, launching your first EC2 instance, breaking it, fixing it, and doing that enough
+            times that it stops feeling unfamiliar. Every engineer whose work you rely on every day started exactly
+            there.</p>
+        </section>
+
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Written and maintained by the AWS Student Builder Group.</p>
+    <p><a href="/blog.html">&larr; Back to all articles</a></p>
+  </footer>
+
+</body>
+
+</html>

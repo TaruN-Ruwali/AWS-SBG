@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.querySelector('.theme-toggle');
   const root = document.documentElement;
   const savedTheme = localStorage.getItem('sbg-theme');
-  
+
   if (savedTheme) {
     root.setAttribute('data-theme', savedTheme);
   } else {
@@ -22,15 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---- Team Flip Cards ----
   const teamHighlights = {
-    "Vipul Joshi": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>AWS SBG & Campus Leader</li><li>Former Google Student Ambassador</li><li>AI-Automation Intern</li><li>National-Level Hackathon Finalist</li></ul>",
+    "Vipul Joshi": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>AWS Student Builder Group Leader & Campus Leader</li><li>AI Automation Intern / Ex-SDE Intern</li><li>Building Scalable Solutions to Real World Problems</li><li>Former Google Student Ambassador</li><li>National-Level Hackathon Finalist</li><li>DSA - 200+ Solved</li></ul>",
     "Tarun Ruwali": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>SDE Intern</li><li>Google Cloud Arcade Winner & Mentor</li><li>AWS & GCP Certified (100+ courses)</li><li>LeetCode: 250+ Solved (1442+ Rating)</li><li>Secured Rank: 20/590 in AWS JAM</li><li>Hackathon Winner & Full Stack Web Developer</li></ul>",
     "Tapas Mishra": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>LeetCode: 350+ Solved (1710+ Rating)</li><li>Hackathon Winner</li><li>50+ AWS Courses Completed</li><li>MERN Stack Developer</li></ul>",
     "Harshita Padaliya": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>AWS Cloud & DevOps (20+ courses)</li><li>LeetCode: 300+ Solved & DSA</li><li>NASA Space Apps Mentor</li><li>National Hackathon Participant</li><li>Frontend Developer</li></ul>",
-    "Sumit Singh Bagdwal": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>Programming: C++, Java, JS</li><li>DSA Proficiency</li><li>Google Cloud Arcade Legend Tier</li></ul>",
+    "Sumit Singh Bagdwal": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>Application Developer</li><li>Cloud Data Engineering & Analytics</li><li>Programming: C++, Java, JS</li><li>DSA Proficiency</li><li>Google Cloud Arcade Legend Tier</li></ul>",
     "Harshit Pargain": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>Google Student Ambassador</li><li>Technical Event Coordinator</li><li>Workshop Facilitator</li><li>Campus Leadership & Public Speaking</li></ul>",
     "Karan Bisht": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>AWS AI Practitioner Certified</li><li>Community Growth Strategist</li><li>Campus Branding & Tech Events</li><li>Digital Content Creator (10K+ Reach)</li></ul>",
     "Shubham Singh": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>National Hackathon Finalist 2026</li><li>LeetCode: 200+ Solved</li><li>Secured Rank: 58/590 in AWS JAM</li></ul>",
-    "Tanya Chugh": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>B.Tech CSE (2nd Year)</li><li>Hackathon Participant</li><li>SQL, AI & ChatGPT Certified</li><li>Selected for ARIES Industrial Visit</li><li>Intl. Dance Performer</li></ul>"
+    "Tanya Chugh": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>Hackathon Participant</li><li>SQL, AI & ChatGPT Certified</li><li>Selected for ARIES Industrial Visit</li><li>Intl. Dance Performer</li></ul>",
+    "Rashmi Bora": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>Cloud AI/ML & Generative AI Domain</li><li>Interests: AI/ML, Cloud Computing, Python, DSA</li><li>Projects: Disease Detection System, House Price Prediction, Jarvis AI Assistant</li></ul>"
   };
 
   document.querySelectorAll('.team-card').forEach(card => {
@@ -46,15 +47,37 @@ document.addEventListener('DOMContentLoaded', () => {
       front.className = 'flip-card-front';
       const back = document.createElement('div');
       back.className = 'flip-card-back';
-      
+
       while (card.firstChild) {
         front.appendChild(card.firstChild);
       }
-      
+
       back.innerHTML = `<div class="highlights">${highlight}</div>`;
+
+      const socials = front.querySelector('.socials');
+      if (socials) {
+        const socialsClone = socials.cloneNode(true);
+        socialsClone.style.marginTop = '16px';
+        socialsClone.style.justifyContent = 'center';
+        back.appendChild(socialsClone);
+      }
+
       inner.appendChild(front);
       inner.appendChild(back);
       card.appendChild(inner);
+      
+      card.addEventListener('click', (e) => {
+        if (!e.target.closest('a')) {
+          // Close any other flipped cards
+          document.querySelectorAll('.team-card.flip-card.is-flipped').forEach(otherCard => {
+            if (otherCard !== card) {
+              otherCard.classList.remove('is-flipped');
+            }
+          });
+          // Toggle this card
+          card.classList.toggle('is-flipped');
+        }
+      });
     }
   });
 
@@ -94,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.querySelector('.menu-toggle');
   const navbar = document.querySelector('.navbar');
   const navLinks = document.querySelector('.nav-links');
-  
+
   menuToggle?.addEventListener('click', (e) => {
     e.stopPropagation();
     navbar.classList.toggle('mobile-open');
