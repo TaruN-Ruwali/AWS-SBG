@@ -20,6 +20,44 @@ document.addEventListener('DOMContentLoaded', () => {
     root.style.setProperty('--mouse-y', `${y}%`);
   });
 
+  // ---- Team Flip Cards ----
+  const teamHighlights = {
+    "Vipul Joshi": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>AWS SBG & Campus Leader</li><li>Former Google Student Ambassador</li><li>AI-Automation Intern</li><li>National-Level Hackathon Finalist</li></ul>",
+    "Tarun Ruwali": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>SDE Intern</li><li>Google Cloud Arcade Winner & Mentor</li><li>AWS & GCP Certified (100+ courses)</li><li>LeetCode: 250+ Solved (1442+ Rating)</li><li>Secured Rank: 20/590 in AWS JAM</li><li>Hackathon Winner & Full Stack Web Developer</li></ul>",
+    "Tapas Mishra": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>LeetCode: 350+ Solved (1710+ Rating)</li><li>Hackathon Winner</li><li>50+ AWS Courses Completed</li><li>MERN Stack Developer</li></ul>",
+    "Harshita Padaliya": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>AWS Cloud & DevOps (20+ courses)</li><li>LeetCode: 300+ Solved & DSA</li><li>NASA Space Apps Mentor</li><li>National Hackathon Participant</li><li>Frontend Developer</li></ul>",
+    "Sumit Singh Bagdwal": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>Programming: C++, Java, JS</li><li>DSA Proficiency</li><li>Google Cloud Arcade Legend Tier</li></ul>",
+    "Harshit Pargain": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>Google Student Ambassador</li><li>Technical Event Coordinator</li><li>Workshop Facilitator</li><li>Campus Leadership & Public Speaking</li></ul>",
+    "Karan Bisht": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>AWS AI Practitioner Certified</li><li>Community Growth Strategist</li><li>Campus Branding & Tech Events</li><li>Digital Content Creator (10K+ Reach)</li></ul>",
+    "Shubham Singh": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>National Hackathon Finalist 2026</li><li>LeetCode: 200+ Solved</li><li>Secured Rank: 58/590 in AWS JAM</li></ul>",
+    "Tanya Chugh": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>B.Tech CSE (2nd Year)</li><li>Hackathon Participant</li><li>SQL, AI & ChatGPT Certified</li><li>Selected for ARIES Industrial Visit</li><li>Intl. Dance Performer</li></ul>"
+  };
+
+  document.querySelectorAll('.team-card').forEach(card => {
+    const tnameEl = card.querySelector('.tname');
+    if (!tnameEl) return;
+    const name = tnameEl.textContent.trim();
+    const highlight = teamHighlights[name];
+    if (highlight) {
+      card.classList.add('flip-card');
+      const inner = document.createElement('div');
+      inner.className = 'flip-card-inner';
+      const front = document.createElement('div');
+      front.className = 'flip-card-front';
+      const back = document.createElement('div');
+      back.className = 'flip-card-back';
+      
+      while (card.firstChild) {
+        front.appendChild(card.firstChild);
+      }
+      
+      back.innerHTML = `<div class="highlights">${highlight}</div>`;
+      inner.appendChild(front);
+      inner.appendChild(back);
+      card.appendChild(inner);
+    }
+  });
+
   themeToggle?.addEventListener('click', () => {
     const toggle = () => {
       const current = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
