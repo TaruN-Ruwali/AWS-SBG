@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---- Team Flip Cards ----
   const teamHighlights = {
-    "Vipul Joshi": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>AWS Student Builder Group Leader & Campus Leader</li><li>AI Automation Intern / Ex-SDE Intern</li><li>Building Scalable Solutions to Real World Problems</li><li>Former Google Student Ambassador</li><li>National-Level Hackathon Finalist</li><li>DSA - 200+ Solved</li></ul>",
-    "Tarun Ruwali": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>SDE Intern</li><li>Google Cloud Arcade Winner & Mentor</li><li>AWS & GCP Certified (100+ courses)</li><li>LeetCode: 250+ Solved (1442+ Rating)</li><li>Secured Rank: 20/590 in AWS JAM</li><li>Hackathon Winner & Full Stack Web Developer</li></ul>",
+    "Vipul Joshi": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>AWS Student Builder Group Leader & Campus Leader</li><li>Building Scalable Solutions to Real World Problems</li><li>Former Google Student Ambassador</li><li>National-Level Hackathon Finalist</li><li>DSA - 200+ Solved</li></ul>",
+    "Tarun Ruwali": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>SDE Intern</li><li>Google Cloud Arcade Winner & Mentor</li><li>AWS & GCP (100+ courses completed)</li><li>LeetCode: 250+ Solved (1442+ Rating)</li><li>Secured Rank: 20/590 in AWS JAM</li><li>Hackathon Winner & Full Stack Web Developer</li></ul>",
     "Tapas Mishra": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>LeetCode: 350+ Solved (1710+ Rating)</li><li>Hackathon Winner</li><li>50+ AWS Courses Completed</li><li>MERN Stack Developer</li></ul>",
     "Harshita Padaliya": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>AWS Cloud & DevOps (20+ courses)</li><li>LeetCode: 300+ Solved & DSA</li><li>NASA Space Apps Mentor</li><li>National Hackathon Participant</li><li>Frontend Developer</li></ul>",
     "Sumit Singh Bagdwal": "<ul style='margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;'><li>Application Developer</li><li>Cloud Data Engineering & Analytics</li><li>Programming: C++, Java, JS</li><li>DSA Proficiency</li><li>Google Cloud Arcade Legend Tier</li></ul>",
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
       inner.appendChild(front);
       inner.appendChild(back);
       card.appendChild(inner);
-      
+
       card.addEventListener('click', (e) => {
         if (!e.target.closest('a')) {
           // Close any other flipped cards
