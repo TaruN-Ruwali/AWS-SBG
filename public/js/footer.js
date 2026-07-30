@@ -2,7 +2,9 @@ document.getElementById('footer-placeholder').innerHTML = `
   <div class="footer-grid">
     <div>
       <div class="brand" style="margin-bottom:14px;">
-        <img src="assets/images/logo.png" alt="Logo" class="logo-main" style="width:34px;">
+        <img src="assets/images/GEHU_LOGO.png" alt="GEHU Logo" class="logo-main" style="width:34px;">
+        <span style="font-size: 20px; color: var(--ink-muted); font-weight: 300;">|</span>
+        <img src="assets/images/logo.png" alt="AWS Logo" class="logo-main" style="width:34px;">
         <div class="brand-text">
           <div class="name">AWS STUDENT BUILDER GROUP</div>
           <div class="sub">at Graphic Era Hill University — Bhimtal Campus</div>
