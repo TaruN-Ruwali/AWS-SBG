@@ -2,7 +2,7 @@ document.getElementById('footer-placeholder').innerHTML = `
   <div class="footer-grid">
     <div>
       <div class="brand" style="margin-bottom:14px;">
-        <img src="assets/images/GEHU_LOGO.png" alt="GEHU Logo" class="logo-main" style="width:34px;">
+        <img src="assets/images/GEHU_LOGO.png" alt="GEHU Logo" class="logo-main" style="width:34px; background-color: white; border-radius: 50%;">
         <span style="font-size: 20px; color: var(--ink-muted); font-weight: 300;">|</span>
         <img src="assets/images/logo.png" alt="AWS Logo" class="logo-main" style="width:34px;">
         <div class="brand-text">
