@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (savedTheme) {
     root.setAttribute('data-theme', savedTheme);
   } else {
-    root.setAttribute('data-theme', 'dark');
-    localStorage.setItem('sbg-theme', 'dark');
+    root.setAttribute('data-theme', 'light');
+    localStorage.setItem('sbg-theme', 'light');
   }
 
   // ---- Mouse Move Gradient Tracking ----
