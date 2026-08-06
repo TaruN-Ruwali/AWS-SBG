@@ -293,4 +293,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // ---- Event Poster Modal Logic ----
+  const eventModal = document.getElementById('event-modal');
+  const eventModalClose = document.querySelector('.event-modal-close');
+
+  if (eventModal && eventModalClose) {
+    // Check if user has already closed it in this session
+    if (!sessionStorage.getItem('sbg-event-modal-closed')) {
+      // Show modal after a short delay
+      setTimeout(() => {
+        eventModal.classList.add('active');
+      }, 800);
+    }
+
+    const closeEventModal = () => {
+      eventModal.classList.remove('active');
+      sessionStorage.setItem('sbg-event-modal-closed', 'true');
+    };
+
+    eventModalClose.addEventListener('click', closeEventModal);
+    
+    // Close on outside click
+    eventModal.addEventListener('click', (e) => {
+      if (e.target === eventModal) {
+        closeEventModal();
+      }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && eventModal.classList.contains('active')) {
+        closeEventModal();
+      }
+    });
+  }
+
 });
