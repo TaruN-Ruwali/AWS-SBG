@@ -17,8 +17,10 @@ A comprehensive evaluation and live ranking leaderboard for the **AWS SBG Vibeat
 - **Prompt Metrics & Efficiency**:
   - Prompts logged per round (R1 Prompts, R2 Prompts, R3 Prompts)
   - Total prompt count & Prompt Efficiency Index (`Marks / Prompts`)
-- **Tie-Breaking Rule**:
-  - In case of identical total scores, the team with **fewer prompts used** is awarded the higher rank.
+- **40-Prompt Cap & Ranking Hierarchy**:
+  - **Prompt Limit Rule**: Teams with **40 or fewer prompts (≤ 40)** are ranked **strictly above** any team that exceeds 40 prompts (> 40).
+  - **Points Rule**: Within each tier, teams with higher total scores rank higher.
+  - **Tie-Breaking Rule**: In case of identical total scores, the team with **fewer prompts used** is awarded the higher rank.
 
 ---
 

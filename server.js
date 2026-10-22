@@ -89,8 +89,16 @@ function computeLeaderboard(teams) {
     };
   });
 
-  // Sort: Total Score desc, then Total Prompts asc (efficiency tie breaker), then R3, R2, R1 desc
+  // Sort:
+  // 1. Teams with <= 40 prompts rank ABOVE teams with > 40 prompts
+  // 2. Total Score desc
+  // 3. Total Prompts asc (efficiency tie breaker)
+  // 4. R3, R2, R1 desc
   processed.sort((a, b) => {
+    const aExceeded = a.totalPrompts > 40;
+    const bExceeded = b.totalPrompts > 40;
+    if (aExceeded !== bExceeded) return aExceeded ? 1 : -1;
+
     if (b.totalScore !== a.totalScore) return b.totalScore - a.totalScore;
     if (a.totalPrompts !== b.totalPrompts) return a.totalPrompts - b.totalPrompts;
     if (b.round3.score !== a.round3.score) return b.round3.score - a.round3.score;

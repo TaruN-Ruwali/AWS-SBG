@@ -239,8 +239,16 @@ function processTeamsData(teams) {
   });
 
   // Strict sorting rule:
-  // Points DESC, then Prompts ASC (less prompts = higher rank), then ID ASC
+  // 1. Teams with <= 40 prompts rank ABOVE teams exceeding 40 prompts (> 40)
+  // 2. Points DESCENDING (highest score first)
+  // 3. Fewer Prompts ASCENDING (fewer prompts ranks higher)
+  // 4. ID ASCENDING (deterministic fallback)
   processed.sort((a, b) => {
+    const aExceeded = a.totalPrompts > 40;
+    const bExceeded = b.totalPrompts > 40;
+    if (aExceeded !== bExceeded) {
+      return aExceeded ? 1 : -1;
+    }
     if (b.totalScore !== a.totalScore) {
       return b.totalScore - a.totalScore;
     }
