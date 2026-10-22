@@ -45,7 +45,9 @@ const OFFICIAL_TEAM_NAMES = [
   "52",
   "Chupa chups",
   "Team Callidus",
-  "Tech4all"
+  "Tech4all",
+  "Vibecheck 404",
+  "Code Maxxing"
 ];
 
 // Fallback initial team definitions
@@ -118,13 +120,20 @@ function mapTeamToSupabaseRow(t) {
 let allTeams = [];
 let currentEvaluatingTeamId = 1;
 let isAutoScrollActive = false;
-let autoScrollTimer = null;
+let autoScrollRaf = null;
 let pollTimer = null;
+
+// Timer State
+let timerTotalDuration = 45 * 60; // 45 minutes default
+let timerSecondsLeft = 45 * 60;
+let timerIsRunning = false;
+let timerIntervalId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   initLeaderboard();
   bindSmartboardControls();
   initRealtimeSync();
+  initTimer();
 });
 
 // Security PIN verification modal helper
@@ -309,8 +318,14 @@ async function initLeaderboard() {
   const cached = localStorage.getItem('sbg_vibeathon_teams_v2');
   if (cached) {
     try {
-      const parsed = JSON.parse(cached);
+      let parsed = JSON.parse(cached);
       if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].name === "Code Smith") {
+        // Merge any new default teams (e.g. Vibecheck 404, Code Maxxing) if not yet in cache
+        if (parsed.length < DEFAULT_TEAMS_FALLBACK.length) {
+          const existingIds = new Set(parsed.map(t => t.id));
+          const missing = DEFAULT_TEAMS_FALLBACK.filter(t => !existingIds.has(t.id));
+          parsed = [...parsed, ...missing];
+        }
         allTeams = processTeamsData(parsed);
         renderBoardRows();
         populateModalPicker();
@@ -636,52 +651,287 @@ function toggleAutoScroll() {
   }
 }
 
-// Auto Scroll Feature:
-// Continuously scrolls down through all teams.
-// When reaching the bottom (showing the last team), it pauses for 5 seconds (5000ms).
-// Then smoothly returns to the top, pauses briefly, and repeats.
+// Butter-Smooth Auto Scroll Feature using requestAnimationFrame:
+// Synchronized directly with display refresh rates (60/120/144Hz) for jitter-free scrolling.
+let autoScrollState = 'scrolling_down'; // 'scrolling_down' | 'pausing_at_bottom' | 'scrolling_up' | 'pausing_at_top'
+let autoScrollPauseUntil = 0;
+let autoScrollLastTime = 0;
+const SCROLL_SPEED_PX_PER_SEC = 38; // Smooth reading pace
+
 function startAutoScroll() {
   stopAutoScroll();
-  let state = 'scrolling_down'; // 'scrolling_down' | 'pausing_at_bottom' | 'scrolling_up' | 'pausing_at_top'
-  let pauseUntil = 0;
+  autoScrollState = 'scrolling_down';
+  autoScrollPauseUntil = 0;
+  autoScrollLastTime = performance.now();
 
-  autoScrollTimer = setInterval(() => {
+  function step(now) {
     if (!isAutoScrollActive) return;
-    const now = Date.now();
-    if (now < pauseUntil) return;
+
+    const dt = Math.min(0.08, (now - autoScrollLastTime) / 1000);
+    autoScrollLastTime = now;
 
     const maxScroll = Math.max(
       document.documentElement.scrollHeight - window.innerHeight,
       document.body.scrollHeight - window.innerHeight
     );
-    if (maxScroll <= 0) return;
 
-    const current = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+    if (maxScroll > 0) {
+      const current = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
-    if (state === 'scrolling_down') {
-      if (current >= maxScroll - 6) {
-        // Reached bottom, show last team for 5 seconds (5000ms) as specified
-        state = 'pausing_at_bottom';
-        pauseUntil = now + 5000;
-      } else {
-        window.scrollBy({ top: 1, behavior: 'auto' });
+      if (now >= autoScrollPauseUntil) {
+        if (autoScrollState === 'scrolling_down') {
+          if (current >= maxScroll - 4) {
+            // Reached bottom, show last team for 5 seconds
+            autoScrollState = 'pausing_at_bottom';
+            autoScrollPauseUntil = now + 5000;
+          } else {
+            window.scrollBy(0, SCROLL_SPEED_PX_PER_SEC * dt);
+          }
+        } else if (autoScrollState === 'pausing_at_bottom') {
+          // Smoothly return to top
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          autoScrollState = 'pausing_at_top';
+          autoScrollPauseUntil = now + 3200;
+        } else if (autoScrollState === 'pausing_at_top') {
+          autoScrollState = 'scrolling_down';
+        }
       }
-    } else if (state === 'pausing_at_bottom') {
-      // 5 seconds elapsed showing last team! Now return to top smoothly
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      state = 'pausing_at_top';
-      pauseUntil = now + 3500; // Allow smooth scroll to finish + brief pause at top to see rank 1
-    } else if (state === 'pausing_at_top') {
-      // Resume scrolling down
-      state = 'scrolling_down';
     }
-  }, 28);
+
+    autoScrollRaf = requestAnimationFrame(step);
+  }
+
+  autoScrollRaf = requestAnimationFrame(step);
 }
 
 function stopAutoScroll() {
-  if (autoScrollTimer) {
-    clearInterval(autoScrollTimer);
-    autoScrollTimer = null;
+  if (autoScrollRaf) {
+    cancelAnimationFrame(autoScrollRaf);
+    autoScrollRaf = null;
+  }
+}
+
+// ==========================================================================
+// COUNTDOWN TIMER SYSTEM (Normal View & Fullscreen Sync)
+// ==========================================================================
+
+function formatTimerDigits(totalSeconds) {
+  const s = Math.max(0, Math.floor(totalSeconds));
+  const hrs = Math.floor(s / 3600);
+  const mins = Math.floor((s % 3600) / 60);
+  const secs = s % 60;
+
+  if (hrs > 0) {
+    return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+  return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
+function updateTimerDisplays() {
+  const formatted = formatTimerDigits(timerSecondsLeft);
+  const isExpired = timerSecondsLeft <= 0;
+
+  // Main Action Bar Timer Elements
+  const displayEl = document.getElementById('timer-display');
+  const toggleLabel = document.getElementById('timer-toggle-label');
+  const container = document.getElementById('leaderboard-timer');
+
+  if (displayEl) displayEl.textContent = formatted;
+  if (toggleLabel) toggleLabel.textContent = timerIsRunning ? 'Pause' : (timerSecondsLeft < timerTotalDuration ? 'Resume' : 'Start');
+
+  if (container) {
+    container.classList.toggle('running', timerIsRunning);
+    container.classList.toggle('expired', isExpired);
+  }
+
+  // Fullscreen Sticky Header Timer Elements
+  const fsDigits = document.getElementById('fs-timer-digits');
+  const fsStatus = document.getElementById('fs-timer-status');
+  const fsContainer = document.getElementById('fullscreen-timer-container');
+
+  if (fsDigits) fsDigits.textContent = formatted;
+  if (fsStatus) {
+    fsStatus.textContent = isExpired ? 'TIME UP' : (timerIsRunning ? 'RUNNING' : 'PAUSED');
+  }
+  if (fsContainer) {
+    fsContainer.classList.toggle('running', timerIsRunning);
+    fsContainer.classList.toggle('expired', isExpired);
+  }
+}
+
+function saveTimerState() {
+  try {
+    localStorage.setItem('sbg_vibeathon_timer_v2', JSON.stringify({
+      duration: timerTotalDuration,
+      secondsLeft: timerSecondsLeft,
+      isRunning: timerIsRunning,
+      lastTimestamp: Date.now()
+    }));
+  } catch (e) {}
+}
+
+function initTimer() {
+  const saved = localStorage.getItem('sbg_vibeathon_timer_v2');
+  if (saved) {
+    try {
+      const state = JSON.parse(saved);
+      timerTotalDuration = parseInt(state.duration, 10) || (45 * 60);
+      let left = parseInt(state.secondsLeft, 10);
+      if (isNaN(left)) left = timerTotalDuration;
+
+      if (state.isRunning) {
+        const elapsed = Math.floor((Date.now() - (parseInt(state.lastTimestamp, 10) || Date.now())) / 1000);
+        left = Math.max(0, left - elapsed);
+      }
+      timerSecondsLeft = left;
+      if (state.isRunning && timerSecondsLeft > 0) {
+        startTimerCountdown();
+      }
+    } catch (e) {
+      console.error('Error loading timer state:', e);
+    }
+  }
+
+  updateTimerDisplays();
+  bindTimerControls();
+}
+
+function startTimerCountdown() {
+  if (timerIntervalId) clearInterval(timerIntervalId);
+  timerIsRunning = true;
+  saveTimerState();
+  updateTimerDisplays();
+
+  timerIntervalId = setInterval(() => {
+    if (timerSecondsLeft > 0) {
+      timerSecondsLeft--;
+      updateTimerDisplays();
+      saveTimerState();
+
+      if (timerSecondsLeft === 0) {
+        pauseTimerCountdown();
+        playTimerAlertSound();
+        showToast('⏰ Time is up! Evaluation round ended.', 'error');
+      }
+    } else {
+      pauseTimerCountdown();
+    }
+  }, 1000);
+}
+
+function pauseTimerCountdown() {
+  if (timerIntervalId) {
+    clearInterval(timerIntervalId);
+    timerIntervalId = null;
+  }
+  timerIsRunning = false;
+  saveTimerState();
+  updateTimerDisplays();
+}
+
+function toggleTimer() {
+  if (timerIsRunning) {
+    pauseTimerCountdown();
+    showToast('Timer paused.');
+  } else {
+    if (timerSecondsLeft <= 0) {
+      timerSecondsLeft = timerTotalDuration;
+    }
+    startTimerCountdown();
+    showToast(`Timer started: ${formatTimerDigits(timerSecondsLeft)} remaining.`);
+  }
+}
+
+function resetTimerCountdown() {
+  pauseTimerCountdown();
+  timerSecondsLeft = timerTotalDuration;
+  saveTimerState();
+  updateTimerDisplays();
+  showToast(`Timer reset to ${formatTimerDigits(timerTotalDuration)}.`);
+}
+
+function playTimerAlertSound() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const now = ctx.currentTime;
+
+    // 3 distinct gentle chime beeps
+    [0, 0.25, 0.5].forEach((offset, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(idx === 2 ? 880 : 660, now + offset);
+      gain.gain.setValueAtTime(0.25, now + offset);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.2);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now + offset);
+      osc.stop(now + offset + 0.22);
+    });
+  } catch (e) {
+    // Audio context may be restricted by browser policy
+  }
+}
+
+function openTimerModal() {
+  const modal = document.getElementById('timer-modal');
+  const input = document.getElementById('timer-custom-mins');
+  if (input) input.value = Math.max(1, Math.round(timerTotalDuration / 60));
+  if (modal) modal.classList.add('active');
+}
+
+function closeTimerModal() {
+  const modal = document.getElementById('timer-modal');
+  if (modal) modal.classList.remove('active');
+}
+
+function setTimerDurationMinutes(mins) {
+  const parsed = parseInt(mins, 10);
+  if (!parsed || parsed <= 0) return;
+  timerTotalDuration = parsed * 60;
+  resetTimerCountdown();
+  closeTimerModal();
+  showToast(`Countdown timer set to ${parsed} minutes.`);
+}
+
+function bindTimerControls() {
+  // Toggle Start / Pause
+  document.getElementById('btn-timer-toggle')?.addEventListener('click', toggleTimer);
+
+  // Fullscreen pill click toggles pause/start
+  document.getElementById('fullscreen-timer-container')?.addEventListener('click', toggleTimer);
+
+  // Set Duration Modal Trigger
+  document.getElementById('btn-timer-set')?.addEventListener('click', openTimerModal);
+  document.getElementById('timer-display')?.addEventListener('click', openTimerModal);
+
+  // Reset Button
+  document.getElementById('btn-timer-reset')?.addEventListener('click', resetTimerCountdown);
+
+  // Modal Preset Buttons
+  document.querySelectorAll('.timer-preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mins = btn.getAttribute('data-mins');
+      if (mins) setTimerDurationMinutes(mins);
+    });
+  });
+
+  // Modal Custom Minutes Save
+  document.getElementById('timer-modal-save')?.addEventListener('click', () => {
+    const input = document.getElementById('timer-custom-mins');
+    if (input) setTimerDurationMinutes(input.value);
+  });
+
+  // Modal Close / Cancel
+  document.getElementById('timer-modal-close')?.addEventListener('click', closeTimerModal);
+  document.getElementById('timer-modal-cancel')?.addEventListener('click', closeTimerModal);
+  const timerModal = document.getElementById('timer-modal');
+  if (timerModal) {
+    timerModal.addEventListener('click', (e) => {
+      if (e.target === timerModal) closeTimerModal();
+    });
   }
 }
 

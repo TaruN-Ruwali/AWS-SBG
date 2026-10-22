@@ -47,6 +47,19 @@
             </path>
           </svg>
         </button>
+        <button class="menu-toggle" aria-label="Toggle Navigation Menu">
+          <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
     </div>
   </nav>
@@ -73,6 +86,26 @@
       </div>
 
       <div class="smartboard-actions">
+        <!-- Live Round Timer Widget -->
+        <div class="timer-control-pill" id="leaderboard-timer">
+          <span class="timer-icon-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </span>
+          <span id="timer-display" class="timer-digits" title="Click to set countdown time">45:00</span>
+          <button id="btn-timer-toggle" class="timer-action-btn timer-btn-toggle" title="Start or Pause Timer">
+            <span id="timer-toggle-label">Start</span>
+          </button>
+          <button id="btn-timer-set" class="timer-action-btn timer-btn-icon" title="Set Time (Duration)">
+            Set
+          </button>
+          <button id="btn-timer-reset" class="timer-action-btn timer-btn-icon" title="Reset Timer">
+            ↺
+          </button>
+        </div>
+
         <!-- Enter Marks / Edit Scores Modal (Protected by PIN) -->
         <button id="btn-enter-marks" class="smartboard-btn" title="Open score entry dialog for evaluators">
           Enter Marks
@@ -95,9 +128,20 @@
       </div>
     </div>
 
-    <!-- Persistent Smart Board Sticky Header: In full screen, the big heading LEADERBOARD and next row remain constant -->
+    <!-- Persistent Smart Board Sticky Header -->
     <div class="smartboard-sticky-header">
-      <h1 class="fullscreen-big-heading">LEADERBOARD</h1>
+      <div class="fullscreen-header-bar">
+        <div class="fs-header-left">
+          <h1 class="fullscreen-big-heading">LEADERBOARD</h1>
+        </div>
+        <div class="fs-header-center">
+          <div id="fullscreen-timer-container" class="fullscreen-timer-display" title="Click to Start / Pause Timer">
+            <span id="fs-timer-digits" class="fs-timer-digits">45:00</span>
+            <span id="fs-timer-status" class="fs-timer-status">PAUSED</span>
+          </div>
+        </div>
+        <div class="fs-header-right"></div>
+      </div>
 
       <div class="board-header-row">
         <div class="col-place">PLACE</div>
@@ -231,6 +275,33 @@
       <div style="display: flex; justify-content: flex-end; gap: 10px;">
         <button id="pin-cancel-btn" class="btn btn-outline" style="padding: 10px 18px;">Cancel</button>
         <button id="pin-submit-btn" class="btn btn-primary" style="padding: 10px 22px;">Verify</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Countdown Timer Setup Modal -->
+  <div id="timer-modal" class="pin-modal">
+    <div class="pin-modal-card" style="max-width: 420px;">
+      <div class="pin-modal-header">
+        <h3 style="font-size: 19px; font-weight: 800;">Set Countdown Timer</h3>
+        <button id="timer-modal-close" class="eval-modal-close-btn" aria-label="Close Timer Dialog">&times;</button>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-muted); margin: 6px 0 16px;">
+        Select a preset round duration or enter custom minutes:
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px;">
+        <button type="button" class="btn btn-outline timer-preset-btn" data-mins="15" style="padding: 8px 4px; font-size: 13px; justify-content: center;">15m</button>
+        <button type="button" class="btn btn-outline timer-preset-btn" data-mins="30" style="padding: 8px 4px; font-size: 13px; justify-content: center;">30m</button>
+        <button type="button" class="btn btn-outline timer-preset-btn" data-mins="45" style="padding: 8px 4px; font-size: 13px; justify-content: center;">45m</button>
+        <button type="button" class="btn btn-outline timer-preset-btn" data-mins="60" style="padding: 8px 4px; font-size: 13px; justify-content: center;">60m</button>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+        <label for="timer-custom-mins" style="font-size: 13px; font-weight: 700; white-space: nowrap; margin: 0;">Custom Minutes:</label>
+        <input type="number" id="timer-custom-mins" min="1" max="300" value="45" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1.5px solid var(--border); font-size: 15px; font-weight: 700;">
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" id="timer-modal-cancel" class="btn btn-outline" style="padding: 9px 18px;">Cancel</button>
+        <button type="button" id="timer-modal-save" class="btn btn-primary" style="padding: 9px 22px;">Apply & Reset</button>
       </div>
     </div>
   </div>

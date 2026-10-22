@@ -142,6 +142,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Automatically reset mobile menu if screen expanded to desktop size
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 960 && navbar?.classList.contains('mobile-open')) {
+      navbar.classList.remove('mobile-open');
+      document.body.classList.remove('mobile-menu-active');
+    }
+  });
+
   // ---- Scroll reveal ----
   const revealEls = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {

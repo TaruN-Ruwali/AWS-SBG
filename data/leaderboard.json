@@ -11,6 +11,58 @@
       "notes": ""
     },
     "round2": {
+      "score": 50,
+      "prompts": 5,
+      "notes": ""
+    },
+    "round3": {
+      "score": 49,
+      "prompts": 3,
+      "notes": ""
+    },
+    "totalScore": 144,
+    "totalPrompts": 18,
+    "efficiency": 8,
+    "rank": 1
+  },
+  {
+    "id": 30,
+    "teamNumber": "Team 30",
+    "name": "Debuggers",
+    "project": "Vibeathon Project 30",
+    "members": "Team Member Roster",
+    "round1": {
+      "score": 45,
+      "prompts": 0,
+      "notes": ""
+    },
+    "round2": {
+      "score": 22,
+      "prompts": 0,
+      "notes": ""
+    },
+    "round3": {
+      "score": 36,
+      "prompts": 0,
+      "notes": ""
+    },
+    "totalScore": 103,
+    "totalPrompts": 0,
+    "efficiency": 0,
+    "rank": 2
+  },
+  {
+    "id": 7,
+    "teamNumber": "Team 07",
+    "name": "Sunflower",
+    "project": "Vibeathon Project 07",
+    "members": "Team Member Roster",
+    "round1": {
+      "score": 38,
+      "prompts": 14,
+      "notes": ""
+    },
+    "round2": {
       "score": 0,
       "prompts": 0,
       "notes": ""
@@ -20,11 +72,10 @@
       "prompts": 0,
       "notes": ""
     },
-    "totalScore": 0,
-    "totalPrompts": 0,
-    "efficiency": 0,
-    "rank": 1,
-    "updatedAt": "2026-10-22T08:56:09.143Z"
+    "totalScore": 38,
+    "totalPrompts": 14,
+    "efficiency": 2.71,
+    "rank": 3
   },
   {
     "id": 2,
@@ -38,8 +89,8 @@
       "notes": ""
     },
     "round2": {
-      "score": 0,
-      "prompts": 0,
+      "score": 34,
+      "prompts": 35,
       "notes": ""
     },
     "round3": {
@@ -47,10 +98,10 @@
       "prompts": 0,
       "notes": ""
     },
-    "totalScore": 0,
-    "totalPrompts": 0,
-    "efficiency": 0,
-    "rank": 2
+    "totalScore": 34,
+    "totalPrompts": 35,
+    "efficiency": 0.97,
+    "rank": 4
   },
   {
     "id": 3,
@@ -76,33 +127,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 3
-  },
-  {
-    "id": 4,
-    "teamNumber": "Team 04",
-    "name": "KC Studio",
-    "project": "Vibeathon Project 04",
-    "members": "Team Member Roster",
-    "round1": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round2": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round3": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "totalScore": 0,
-    "totalPrompts": 0,
-    "efficiency": 0,
-    "rank": 4
+    "rank": 5
   },
   {
     "id": 5,
@@ -128,39 +153,13 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 5
+    "rank": 6
   },
   {
     "id": 6,
     "teamNumber": "Team 06",
     "name": "SINISTER 4",
     "project": "Vibeathon Project 06",
-    "members": "Team Member Roster",
-    "round1": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round2": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round3": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "totalScore": 0,
-    "totalPrompts": 0,
-    "efficiency": 0,
-    "rank": 6
-  },
-  {
-    "id": 7,
-    "teamNumber": "Team 07",
-    "name": "Sunflower",
-    "project": "Vibeathon Project 07",
     "members": "Team Member Roster",
     "round1": {
       "score": 0,
@@ -209,58 +208,6 @@
     "rank": 8
   },
   {
-    "id": 9,
-    "teamNumber": "Team 09",
-    "name": "TEAM ALGO",
-    "project": "Vibeathon Project 09",
-    "members": "Team Member Roster",
-    "round1": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round2": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round3": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "totalScore": 0,
-    "totalPrompts": 0,
-    "efficiency": 0,
-    "rank": 9
-  },
-  {
-    "id": 10,
-    "teamNumber": "Team 10",
-    "name": "1st SEM 4-BACK",
-    "project": "Vibeathon Project 10",
-    "members": "Team Member Roster",
-    "round1": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round2": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round3": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "totalScore": 0,
-    "totalPrompts": 0,
-    "efficiency": 0,
-    "rank": 10
-  },
-  {
     "id": 11,
     "teamNumber": "Team 11",
     "name": "Debug Divas",
@@ -284,7 +231,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 11
+    "rank": 9
   },
   {
     "id": 12,
@@ -310,7 +257,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 12
+    "rank": 10
   },
   {
     "id": 13,
@@ -336,7 +283,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 13
+    "rank": 11
   },
   {
     "id": 14,
@@ -362,7 +309,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 14
+    "rank": 12
   },
   {
     "id": 15,
@@ -388,7 +335,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 15
+    "rank": 13
   },
   {
     "id": 16,
@@ -414,7 +361,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 16
+    "rank": 14
   },
   {
     "id": 17,
@@ -440,7 +387,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 17
+    "rank": 15
   },
   {
     "id": 18,
@@ -466,7 +413,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 18
+    "rank": 16
   },
   {
     "id": 19,
@@ -492,7 +439,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 19
+    "rank": 17
   },
   {
     "id": 20,
@@ -518,7 +465,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 20
+    "rank": 18
   },
   {
     "id": 21,
@@ -544,7 +491,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 21
+    "rank": 19
   },
   {
     "id": 22,
@@ -570,7 +517,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 22
+    "rank": 20
   },
   {
     "id": 23,
@@ -596,7 +543,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 23
+    "rank": 21
   },
   {
     "id": 24,
@@ -622,7 +569,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 24
+    "rank": 22
   },
   {
     "id": 25,
@@ -648,7 +595,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 25
+    "rank": 23
   },
   {
     "id": 26,
@@ -674,7 +621,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 26
+    "rank": 24
   },
   {
     "id": 27,
@@ -700,33 +647,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 27
-  },
-  {
-    "id": 28,
-    "teamNumber": "Team 28",
-    "name": "Codex",
-    "project": "Vibeathon Project 28",
-    "members": "Team Member Roster",
-    "round1": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round2": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round3": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "totalScore": 0,
-    "totalPrompts": 0,
-    "efficiency": 0,
-    "rank": 28
+    "rank": 25
   },
   {
     "id": 29,
@@ -752,33 +673,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 29
-  },
-  {
-    "id": 30,
-    "teamNumber": "Team 30",
-    "name": "Debuggers",
-    "project": "Vibeathon Project 30",
-    "members": "Team Member Roster",
-    "round1": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round2": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "round3": {
-      "score": 0,
-      "prompts": 0,
-      "notes": ""
-    },
-    "totalScore": 0,
-    "totalPrompts": 0,
-    "efficiency": 0,
-    "rank": 30
+    "rank": 26
   },
   {
     "id": 31,
@@ -804,7 +699,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 31
+    "rank": 27
   },
   {
     "id": 32,
@@ -830,7 +725,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 32
+    "rank": 28
   },
   {
     "id": 33,
@@ -856,7 +751,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 33
+    "rank": 29
   },
   {
     "id": 34,
@@ -882,7 +777,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 34
+    "rank": 30
   },
   {
     "id": 35,
@@ -908,7 +803,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 35
+    "rank": 31
   },
   {
     "id": 36,
@@ -934,7 +829,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 36
+    "rank": 32
   },
   {
     "id": 37,
@@ -960,7 +855,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 37
+    "rank": 33
   },
   {
     "id": 38,
@@ -986,7 +881,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 38
+    "rank": 34
   },
   {
     "id": 39,
@@ -1012,7 +907,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 39
+    "rank": 35
   },
   {
     "id": 40,
@@ -1038,7 +933,7 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 40
+    "rank": 36
   },
   {
     "id": 41,
@@ -1064,6 +959,162 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
+    "rank": 37
+  },
+  {
+    "id": 42,
+    "teamNumber": "Team 42",
+    "name": "Vibecheck 404",
+    "project": "Vibeathon Project 42",
+    "members": "Team Member Roster",
+    "round1": {
+      "score": 0,
+      "prompts": 0,
+      "notes": ""
+    },
+    "round2": {
+      "score": 0,
+      "prompts": 0,
+      "notes": ""
+    },
+    "round3": {
+      "score": 0,
+      "prompts": 0,
+      "notes": ""
+    },
+    "totalScore": 0,
+    "totalPrompts": 0,
+    "efficiency": 0,
+    "rank": 38
+  },
+  {
+    "id": 43,
+    "teamNumber": "Team 43",
+    "name": "Code Maxxing",
+    "project": "Vibeathon Project 43",
+    "members": "Team Member Roster",
+    "round1": {
+      "score": 0,
+      "prompts": 0,
+      "notes": ""
+    },
+    "round2": {
+      "score": 0,
+      "prompts": 0,
+      "notes": ""
+    },
+    "round3": {
+      "score": 0,
+      "prompts": 0,
+      "notes": ""
+    },
+    "totalScore": 0,
+    "totalPrompts": 0,
+    "efficiency": 0,
+    "rank": 39
+  },
+  {
+    "id": 4,
+    "teamNumber": "Team 04",
+    "name": "KC Studio",
+    "project": "Vibeathon Project 04",
+    "members": "Team Member Roster",
+    "round1": {
+      "score": 50,
+      "prompts": 15,
+      "notes": ""
+    },
+    "round2": {
+      "score": 50,
+      "prompts": 10,
+      "notes": ""
+    },
+    "round3": {
+      "score": 50,
+      "prompts": 50,
+      "notes": ""
+    },
+    "totalScore": 150,
+    "totalPrompts": 75,
+    "efficiency": 2,
+    "rank": 40
+  },
+  {
+    "id": 9,
+    "teamNumber": "Team 09",
+    "name": "TEAM ALGO",
+    "project": "Vibeathon Project 09",
+    "members": "Team Member Roster",
+    "round1": {
+      "score": 50,
+      "prompts": 39,
+      "notes": ""
+    },
+    "round2": {
+      "score": 15,
+      "prompts": 11,
+      "notes": ""
+    },
+    "round3": {
+      "score": 13,
+      "prompts": 5,
+      "notes": ""
+    },
+    "totalScore": 78,
+    "totalPrompts": 55,
+    "efficiency": 1.42,
     "rank": 41
+  },
+  {
+    "id": 10,
+    "teamNumber": "Team 10",
+    "name": "1st SEM 4-BACK",
+    "project": "Vibeathon Project 10",
+    "members": "Team Member Roster",
+    "round1": {
+      "score": 33,
+      "prompts": 102,
+      "notes": ""
+    },
+    "round2": {
+      "score": 0,
+      "prompts": 0,
+      "notes": ""
+    },
+    "round3": {
+      "score": 0,
+      "prompts": 0,
+      "notes": ""
+    },
+    "totalScore": 33,
+    "totalPrompts": 102,
+    "efficiency": 0.32,
+    "rank": 42
+  },
+  {
+    "id": 28,
+    "teamNumber": "Team 28",
+    "name": "Codex",
+    "project": "Vibeathon Project 28",
+    "members": "Team Member Roster",
+    "round1": {
+      "score": 0,
+      "prompts": 63,
+      "notes": ""
+    },
+    "round2": {
+      "score": 0,
+      "prompts": 0,
+      "notes": ""
+    },
+    "round3": {
+      "score": 0,
+      "prompts": 0,
+      "notes": ""
+    },
+    "totalScore": 0,
+    "totalPrompts": 63,
+    "efficiency": 0,
+    "rank": 43
   }
 ]

@@ -42,7 +42,9 @@ const teamNames = [
   "52",
   "Chupa chups",
   "Team Callidus",
-  "Tech4all"
+  "Tech4all",
+  "Vibecheck 404",
+  "Code Maxxing"
 ];
 
 // Generate teams initialized with 0 marks and 0 prompts ready for live evaluation
