@@ -6,8 +6,8 @@
     "project": "Vibeathon Project 01",
     "members": "Team Member Roster",
     "round1": {
-      "score": 0,
-      "prompts": 0,
+      "score": 45,
+      "prompts": 10,
       "notes": ""
     },
     "round2": {
@@ -23,7 +23,8 @@
     "totalScore": 0,
     "totalPrompts": 0,
     "efficiency": 0,
-    "rank": 1
+    "rank": 1,
+    "updatedAt": "2026-10-22T08:56:09.143Z"
   },
   {
     "id": 2,

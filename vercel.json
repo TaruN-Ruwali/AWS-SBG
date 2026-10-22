@@ -1,0 +1,15 @@
+{
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/", "destination": "/public/index.html" },
+    { "source": "/leaderboard", "destination": "/public/leaderboard.html" },
+    { "source": "/leaderboard.html", "destination": "/public/leaderboard.html" },
+    { "source": "/events", "destination": "/public/events.html" },
+    { "source": "/about", "destination": "/public/about.html" },
+    { "source": "/team", "destination": "/public/team.html" },
+    { "source": "/blog", "destination": "/public/blog.html" },
+    { "source": "/gallery", "destination": "/public/gallery.html" },
+    { "source": "/contact", "destination": "/public/contact.html" },
+    { "source": "/(.*)", "destination": "/public/$1" }
+  ]
+}

@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 const app = express();
 
 app.use(express.json());
@@ -10,6 +11,39 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Path to persistent leaderboard data file
 const DATA_DIR = path.join(__dirname, 'data');
 const LEADERBOARD_FILE = path.join(DATA_DIR, 'leaderboard.json');
+
+// Helper to get local Wi-Fi / LAN IP address for other devices
+function getLocalIp() {
+  const interfaces = os.networkInterfaces();
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name]) {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        return iface.address;
+      }
+    }
+  }
+  return 'localhost';
+}
+
+// Realtime Server-Sent Events (SSE) clients for instant sync across all devices
+let sseClients = [];
+
+function broadcastLeaderboardUpdate() {
+  try {
+    const rawTeams = readLeaderboardFile();
+    const result = computeLeaderboard(rawTeams);
+    const payload = JSON.stringify({ type: 'update', ...result });
+    sseClients.forEach(client => {
+      try {
+        client.write(`data: ${payload}\n\n`);
+      } catch (e) {
+        // Ignore disconnected client
+      }
+    });
+  } catch (err) {
+    console.error('Error broadcasting realtime update:', err);
+  }
+}
 
 // Helper to compute total scores, prompts, efficiency and sort ranks
 function computeLeaderboard(teams) {
@@ -119,6 +153,29 @@ app.get('/api/leaderboard', (req, res) => {
   }
 });
 
+// GET /api/leaderboard/stream — Server-Sent Events (SSE) for instant realtime sync
+app.get('/api/leaderboard/stream', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  if (res.flushHeaders) res.flushHeaders();
+
+  // Send current state immediately on connection
+  try {
+    const rawTeams = readLeaderboardFile();
+    const result = computeLeaderboard(rawTeams);
+    res.write(`data: ${JSON.stringify({ type: 'init', ...result })}\n\n`);
+  } catch (err) {
+    console.error('Error sending initial SSE:', err);
+  }
+
+  sseClients.push(res);
+
+  req.on('close', () => {
+    sseClients = sseClients.filter(c => c !== res);
+  });
+});
+
 // POST /api/leaderboard — update teams or single team
 app.post('/api/leaderboard', (req, res) => {
   try {
@@ -170,6 +227,7 @@ app.post('/api/leaderboard', (req, res) => {
 
     // Save to disk
     writeLeaderboardFile(currentTeams);
+    broadcastLeaderboardUpdate();
     const result = computeLeaderboard(currentTeams);
     res.json({ ok: true, message: 'Leaderboard updated successfully!', ...result });
   } catch (err) {
@@ -192,6 +250,7 @@ app.post('/api/leaderboard/reset', (req, res) => {
       updatedAt: new Date().toISOString()
     }));
     writeLeaderboardFile(resetTeams);
+    broadcastLeaderboardUpdate();
     const result = computeLeaderboard(resetTeams);
     res.json({ ok: true, message: 'Leaderboard scores reset to zero.', ...result });
   } catch (err) {
@@ -206,6 +265,7 @@ app.post('/api/leaderboard/seed-sample', (req, res) => {
     delete require.cache[require.resolve('./data/generate_teams.js')];
     require('./data/generate_teams.js');
     const fresh = readLeaderboardFile();
+    broadcastLeaderboardUpdate();
     const result = computeLeaderboard(fresh);
     res.json({ ok: true, message: 'Sample scores reloaded successfully.', ...result });
   } catch (err) {
@@ -228,4 +288,11 @@ app.post('/api/contact', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`AWS SBG site running at http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => {
+  const localIp = getLocalIp();
+  console.log(`====================================================`);
+  console.log(`🚀 AWS SBG Vibeathon Server Running!`);
+  console.log(`💻 Local Machine:       http://localhost:${PORT}/leaderboard.html`);
+  console.log(`📱 Other Devices/Wi-Fi: http://${localIp}:${PORT}/leaderboard.html`);
+  console.log(`====================================================`);
+});

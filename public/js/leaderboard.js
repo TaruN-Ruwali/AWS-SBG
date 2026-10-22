@@ -65,6 +65,56 @@ const DEFAULT_TEAMS_FALLBACK = OFFICIAL_TEAM_NAMES.map((name, idx) => ({
 
 const ADMIN_PIN = "784567";
 
+// Supabase Configuration
+const SUPABASE_URL = 'https://mmghawuhglphmwxjetef.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1tZ2hhd3VoZ2xwaG13eGpldGVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2ODg3NzksImV4cCI6MjEwODI2NDc3OX0.B-P2QmYAndACSCWaHe_4_H3bUuJItEjJ_wjcuLtxebw';
+
+let supabaseClient = null;
+if (window.supabase && typeof window.supabase.createClient === 'function') {
+  try {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase client initialized successfully.');
+  } catch (err) {
+    console.warn('⚠️ Supabase initialization failed:', err);
+  }
+}
+
+// Map Supabase DB row to internal Team object
+function mapSupabaseRowToTeam(row) {
+  return {
+    id: row.id,
+    teamNumber: row.team_number || `Team ${String(row.id).padStart(2, '0')}`,
+    name: row.name || `Team ${row.id}`,
+    project: row.project || '',
+    members: row.members || '',
+    round1: row.round1 || { score: 0, prompts: 0, notes: '' },
+    round2: row.round2 || { score: 0, prompts: 0, notes: '' },
+    round3: row.round3 || { score: 0, prompts: 0, notes: '' },
+    totalScore: parseFloat(row.total_score) || 0,
+    totalPrompts: parseInt(row.total_prompts, 10) || 0,
+    efficiency: parseFloat(row.efficiency) || 0,
+    updatedAt: row.updated_at
+  };
+}
+
+// Map internal Team object to Supabase DB row
+function mapTeamToSupabaseRow(t) {
+  return {
+    id: t.id,
+    team_number: t.teamNumber,
+    name: t.name,
+    project: t.project || '',
+    members: t.members || '',
+    round1: t.round1 || { score: 0, prompts: 0, notes: '' },
+    round2: t.round2 || { score: 0, prompts: 0, notes: '' },
+    round3: t.round3 || { score: 0, prompts: 0, notes: '' },
+    total_score: t.totalScore || 0,
+    total_prompts: t.totalPrompts || 0,
+    efficiency: t.efficiency || 0,
+    updated_at: new Date().toISOString()
+  };
+}
+
 let allTeams = [];
 let currentEvaluatingTeamId = 1;
 let isAutoScrollActive = false;
@@ -74,7 +124,7 @@ let pollTimer = null;
 document.addEventListener('DOMContentLoaded', () => {
   initLeaderboard();
   bindSmartboardControls();
-  startLivePolling();
+  initRealtimeSync();
 });
 
 // Security PIN verification modal helper
@@ -208,8 +258,29 @@ function processTeamsData(teams) {
   return processed;
 }
 
-// Fetch from API or localStorage fallback
+// Fetch from Supabase, API, or localStorage fallback
 async function initLeaderboard() {
+  // 1. Try Supabase first (works on Vercel across all devices anywhere)
+  if (supabaseClient) {
+    try {
+      const { data, error } = await supabaseClient
+        .from('leaderboard')
+        .select('*')
+        .order('id', { ascending: true });
+
+      if (!error && Array.isArray(data) && data.length > 0) {
+        allTeams = processTeamsData(data.map(mapSupabaseRowToTeam));
+        localStorage.setItem('sbg_vibeathon_teams_v2', JSON.stringify(allTeams));
+        renderBoardRows();
+        populateModalPicker();
+        return;
+      }
+    } catch (err) {
+      console.warn('Supabase fetch failed, trying local fallback:', err);
+    }
+  }
+
+  // 2. Try local Node.js server (when running npm start locally)
   try {
     const res = await fetch('/api/leaderboard');
     if (res.ok) {
@@ -226,7 +297,7 @@ async function initLeaderboard() {
     console.warn('API fetch failed, falling back to local storage:', err);
   }
 
-  // LocalStorage check
+  // 3. LocalStorage check
   const cached = localStorage.getItem('sbg_vibeathon_teams_v2');
   if (cached) {
     try {
@@ -242,18 +313,32 @@ async function initLeaderboard() {
     }
   }
 
-  // Initialize with official default teams
+  // 4. Initialize with official default teams
   allTeams = processTeamsData(DEFAULT_TEAMS_FALLBACK);
   localStorage.setItem('sbg_vibeathon_teams_v2', JSON.stringify(allTeams));
   renderBoardRows();
   populateModalPicker();
 }
 
-// Save teams to server and localStorage
+// Save teams to Supabase, server API, and localStorage
 async function saveTeams(updatedTeams) {
   allTeams = processTeamsData(updatedTeams);
   localStorage.setItem('sbg_vibeathon_teams_v2', JSON.stringify(allTeams));
 
+  // 1. Sync to Supabase (instantly updates database for every device)
+  if (supabaseClient) {
+    try {
+      const rows = allTeams.map(mapTeamToSupabaseRow);
+      const { error } = await supabaseClient.from('leaderboard').upsert(rows);
+      if (error) {
+        console.error('Supabase upsert error:', error);
+      }
+    } catch (err) {
+      console.warn('Failed to sync to Supabase:', err);
+    }
+  }
+
+  // 2. Sync to local Express server if running locally
   try {
     const res = await fetch('/api/leaderboard', {
       method: 'POST',
@@ -267,7 +352,7 @@ async function saveTeams(updatedTeams) {
       }
     }
   } catch (err) {
-    console.warn('Failed to persist to server, cached in local store:', err);
+    // Offline or deployed on Vercel static
   }
 
   renderBoardRows();
@@ -592,21 +677,117 @@ function stopAutoScroll() {
   }
 }
 
-// Background polling every 3.5 seconds to sync scores live without refreshing
+// Realtime sync across all devices via Supabase and SSE
+function initRealtimeSync() {
+  // 1. Supabase Realtime Channel (Instant push across all devices on Vercel)
+  if (supabaseClient) {
+    try {
+      supabaseClient
+        .channel('public:leaderboard')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'leaderboard' }, async () => {
+          // Avoid interrupting evaluator typing if modal is open
+          const modal = document.getElementById('evaluation-modal');
+          const pinModal = document.getElementById('pin-modal');
+          if ((modal && modal.classList.contains('active')) || (pinModal && pinModal.classList.contains('active'))) return;
+
+          const { data, error } = await supabaseClient
+            .from('leaderboard')
+            .select('*')
+            .order('id', { ascending: true });
+
+          if (!error && Array.isArray(data) && data.length > 0) {
+            allTeams = processTeamsData(data.map(mapSupabaseRowToTeam));
+            localStorage.setItem('sbg_vibeathon_teams_v2', JSON.stringify(allTeams));
+            renderBoardRows();
+            populateModalPicker();
+          }
+        })
+        .subscribe((status) => {
+          console.log('📡 Supabase Realtime channel status:', status);
+        });
+    } catch (err) {
+      console.warn('Supabase Realtime not initialized:', err);
+    }
+  }
+
+  // 2. Local Node.js SSE connection fallback (for local development)
+  if (window.EventSource) {
+    try {
+      const sse = new EventSource('/api/leaderboard/stream');
+
+      sse.onmessage = (e) => {
+        try {
+          const data = JSON.parse(e.data);
+          if (data && Array.isArray(data.teams) && data.teams.length > 0) {
+            const fresh = processTeamsData(data.teams);
+            const modal = document.getElementById('evaluation-modal');
+            const isEditing = modal && modal.classList.contains('active');
+
+            allTeams = fresh;
+            localStorage.setItem('sbg_vibeathon_teams_v2', JSON.stringify(allTeams));
+            renderBoardRows();
+            if (!isEditing) {
+              populateModalPicker();
+            }
+          }
+        } catch (err) {
+          console.error('Error handling realtime event:', err);
+        }
+      };
+
+      sse.onerror = () => {
+        // SSE disconnected or on Vercel; browser/polling will handle it
+      };
+    } catch (err) {
+      // ignore
+    }
+  }
+
+  // 3. Fallback polling every 3.5 seconds to guarantee 100% sync
+  startLivePolling();
+}
+
+// Background polling as rock-solid backup
 function startLivePolling() {
+  if (pollTimer) clearInterval(pollTimer);
   pollTimer = setInterval(async () => {
     // Only poll if modal is not currently open so user's active inputs aren't disrupted
     const modal = document.getElementById('evaluation-modal');
     const pinModal = document.getElementById('pin-modal');
     if ((modal && modal.classList.contains('active')) || (pinModal && pinModal.classList.contains('active'))) return;
 
+    // Check Supabase first
+    if (supabaseClient) {
+      try {
+        const { data, error } = await supabaseClient
+          .from('leaderboard')
+          .select('*')
+          .order('id', { ascending: true });
+
+        if (!error && Array.isArray(data) && data.length > 0) {
+          const fresh = processTeamsData(data.map(mapSupabaseRowToTeam));
+          const changed = JSON.stringify(fresh.map(t => ({ id: t.id, s: t.totalScore, p: t.totalPrompts, r: t.rank }))) !==
+                          JSON.stringify(allTeams.map(t => ({ id: t.id, s: t.totalScore, p: t.totalPrompts, r: t.rank })));
+          if (changed) {
+            allTeams = fresh;
+            localStorage.setItem('sbg_vibeathon_teams_v2', JSON.stringify(allTeams));
+            renderBoardRows();
+            populateModalPicker();
+          }
+          return;
+        }
+      } catch (e) {
+        // Continue to local API fallback
+      }
+    }
+
+    // Check local API
     try {
       const res = await fetch('/api/leaderboard');
       if (res.ok) {
         const data = await res.json();
         if (data.ok && Array.isArray(data.teams)) {
           const fresh = processTeamsData(data.teams);
-          // Compare whether scores or ranks changed
           const changed = JSON.stringify(fresh.map(t => ({ id: t.id, s: t.totalScore, p: t.totalPrompts, r: t.rank }))) !==
                           JSON.stringify(allTeams.map(t => ({ id: t.id, s: t.totalScore, p: t.totalPrompts, r: t.rank })));
           if (changed) {
