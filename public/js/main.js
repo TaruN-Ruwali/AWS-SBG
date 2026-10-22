@@ -150,11 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
   revealEls.forEach(el => observer.observe(el));
 
   // ---- Animated Counters ----
-  const statNums = document.querySelectorAll('.stat-box .num');
+  const statNums = document.querySelectorAll('.stat-box .num[data-target]');
   const statObserver = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        const target = parseInt(entry.target.getAttribute('data-target') || entry.target.innerText);
+        const target = parseInt(entry.target.getAttribute('data-target'));
+        if (isNaN(target)) return;
         let count = 0;
         const inc = Math.max(1, Math.ceil(target / 40)); // speed
         const updateCount = () => {

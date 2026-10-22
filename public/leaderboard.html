@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibeathon Live Leaderboard | AWS Student Builder Group</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+
+<body class="smartboard-page">
+
+  <!-- Minimal Smart Board Navigation -->
+  <nav class="navbar" id="site-navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <img src="assets/images/GEHU_LOGO.png" alt="GEHU Logo" class="logo-main"
+          style="background-color: white; border-radius: 50%;">
+        <span style="font-size: 24px; color: var(--ink-muted); font-weight: 300;">|</span>
+        <img src="assets/images/logo.png" alt="AWS Logo" class="logo-main">
+        <div class="brand-text">
+          <div class="name">AWS STUDENT BUILDER GROUP</div>
+          <div class="sub">Vibeathon 2026 • Official Leaderboard</div>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="leaderboard.html" class="active leaderboard-nav-link"><span class="live-pulse-dot"></span>Leaderboard <span class="badge-live">LIVE</span></a></li>
+        <li><a href="team.html">Team</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <button class="theme-toggle" aria-label="Toggle Dark/Light Mode">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              d="M12 17.01c2.76 0 5.01-2.25 5.01-5.01S14.76 6.99 12 6.99 6.99 9.24 6.99 12s2.25 5.01 5.01 5.01M12 9c1.66 0 3.01 1.35 3.01 3.01s-1.35 3.01-3.01 3.01-3.01-1.35-3.01-3.01S10.34 9 12 9m1 10h-2v3h2zm0-17h-2v3h2zM2 11h3v2H2zm17 0h3v2h-3zM4.22 18.36l.71.71.71.71 1.06-1.06 1.06-1.06-.71-.71-.71-.71-1.06 1.06zM19.78 5.64l-.71-.71-.71-.71-1.06 1.06-1.06 1.06.71.71.71.71 1.06-1.06zm-12.02.7L6.7 5.28 5.64 4.22l-.71.71-.71.71L5.28 6.7l1.06 1.06.71-.71zm8.48 11.32 1.06 1.06 1.06 1.06.71-.71.71-.71-1.06-1.06-1.06-1.06-.71.71z">
+            </path>
+          </svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              d="M12.2 22c4.53 0 8.45-2.91 9.76-7.24a1.002 1.002 0 0 0-1.25-1.25c-.78.23-1.58.35-2.38.35-4.52 0-8.2-3.68-8.2-8.2 0-.8.12-1.6.35-2.38.11-.35.01-.74-.25-1s-.64-.36-1-.25A10.17 10.17 0 0 0 2 11.8C2 17.42 6.57 22 12.2 22M8.18 4.65c-.03.34-.05.68-.05 1.02 0 5.62 4.57 10.2 10.2 10.2.34 0 .68-.02 1.02-.05C17.93 18.38 15.23 20 12.2 20 7.68 20 4 16.32 4 11.8a8.15 8.15 0 0 1 4.18-7.15">
+            </path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Smart Board Main Area -->
+  <!-- Smart Board Main Area -->
+  <main class="smartboard-wrap">
+
+    <!-- Subtle Floating Exit Fullscreen Button (Visible ONLY in full screen mode) -->
+    <button id="btn-fullscreen-exit" class="fullscreen-exit-float" title="Exit Full Screen">
+      Exit Fullscreen
+    </button>
+
+    <!-- Top Action Bar for Smart Board (Outside full screen mode) -->
+    <div class="smartboard-topbar">
+      <div class="smartboard-brand-area">
+        <span class="live-pulse-dot"></span>
+        <h1 class="smartboard-title">
+          VIBEATHON LEADERBOARD
+        </h1>
+        <span id="autoscroll-indicator" class="autoscroll-badge" style="display: none;">
+          Auto-Scroll Active
+        </span>
+      </div>
+
+      <div class="smartboard-actions">
+        <!-- Enter Marks / Edit Scores Modal (Protected by PIN) -->
+        <button id="btn-enter-marks" class="smartboard-btn" title="Open score entry dialog for evaluators">
+          Enter Marks
+        </button>
+
+        <!-- Toggle Smooth Auto Scroll for Smart Board -->
+        <button id="btn-toggle-autoscroll" class="smartboard-btn" title="Toggle automatic scrolling for large screen presentation">
+          Auto-Scroll
+        </button>
+
+        <!-- Toggle Fullscreen -->
+        <button id="btn-fullscreen-toggle" class="smartboard-btn" style="background: var(--primary); color: #fff; border-color: var(--primary);" title="Toggle Full Screen Mode">
+          Full Screen
+        </button>
+
+        <!-- Reset Options (Protected by PIN) -->
+        <button id="btn-reset-scores" class="smartboard-btn" style="color: #ef4444;" title="Reset all marks to 0">
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- Persistent Smart Board Sticky Header: In full screen, the big heading LEADERBOARD and next row remain constant -->
+    <div class="smartboard-sticky-header">
+      <h1 class="fullscreen-big-heading">LEADERBOARD</h1>
+
+      <div class="board-header-row">
+        <div class="col-place">PLACE</div>
+        <div class="col-name">NAME</div>
+        <div class="col-points col-right">POINTS</div>
+        <div class="col-prompts col-right">NO. OF PROMPTS</div>
+      </div>
+    </div>
+
+    <!-- The 41-Team Rows Container -->
+    <div id="board-rows-container" class="board-rows-list">
+      <!-- Generated dynamically by public/js/leaderboard.js -->
+    </div>
+
+  </main>
+
+  <!-- Detailed Team Evaluation Modal (Touch / Click Friendly) -->
+  <div id="evaluation-modal" class="eval-modal">
+    <div class="eval-modal-card">
+      <div class="eval-modal-header">
+        <div>
+          <span class="pill" style="margin-bottom: 6px; font-size: 11px;">SCORECARD ENTRY</span>
+          <h3 id="modal-team-title" style="font-size: 22px;">Team Evaluation</h3>
+          <p id="modal-team-sub" style="font-size: 13px; color: var(--ink-muted);">Select or modify evaluation marks</p>
+        </div>
+        <button id="modal-close-btn" class="eval-modal-close-btn" aria-label="Close Modal">&times;</button>
+      </div>
+
+      <!-- Quick Team Selector in Modal -->
+      <div style="margin-bottom: 18px;">
+        <label style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--ink-muted);">Select Team to Evaluate:</label>
+        <select id="modal-team-picker" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--snow); color: var(--ink); font-size: 15px; font-weight: 700; margin-top: 6px; cursor: pointer;">
+          <!-- Dynamically filled with all 41 teams -->
+        </select>
+      </div>
+
+      <!-- Live Preview Summary -->
+      <div class="modal-summary-bar">
+        <div>
+          <div class="metric-val" id="modal-preview-total">0 / 150</div>
+          <div class="metric-lbl">Total Points</div>
+        </div>
+        <div>
+          <div class="metric-val" id="modal-preview-prompts" style="color: var(--accent);">0</div>
+          <div class="metric-lbl">Total Prompts</div>
+        </div>
+        <div>
+          <div class="metric-val" id="modal-preview-eff" style="color: #10b981;">0.00</div>
+          <div class="metric-lbl">Points / Prompt</div>
+        </div>
+      </div>
+
+      <!-- Round 1 Form Card -->
+      <div class="round-eval-card">
+        <div class="round-eval-head">
+          <h4>Round 1 Marks (Max 50)</h4>
+          <span class="round-badge-pill">ROUND 1</span>
+        </div>
+        <div class="slider-group">
+          <div class="slider-row">
+            <input type="range" id="modal-r1-slider" min="0" max="50" step="0.5" value="0">
+            <input type="number" id="modal-r1-score" class="slider-val-box" min="0" max="50" step="0.5" value="0">
+          </div>
+        </div>
+        <div>
+          <label style="font-size: 11px;">Prompts Used in Round 1</label>
+          <input type="number" id="modal-r1-prompts" min="0" step="1" value="0" placeholder="Number of prompts">
+        </div>
+      </div>
+
+      <!-- Round 2 Form Card -->
+      <div class="round-eval-card">
+        <div class="round-eval-head">
+          <h4>Round 2 Marks (Max 50)</h4>
+          <span class="round-badge-pill">ROUND 2</span>
+        </div>
+        <div class="slider-group">
+          <div class="slider-row">
+            <input type="range" id="modal-r2-slider" min="0" max="50" step="0.5" value="0">
+            <input type="number" id="modal-r2-score" class="slider-val-box" min="0" max="50" step="0.5" value="0">
+          </div>
+        </div>
+        <div>
+          <label style="font-size: 11px;">Prompts Used in Round 2</label>
+          <input type="number" id="modal-r2-prompts" min="0" step="1" value="0" placeholder="Number of prompts">
+        </div>
+      </div>
+
+      <!-- Round 3 Form Card -->
+      <div class="round-eval-card">
+        <div class="round-eval-head">
+          <h4>Round 3 Marks (Max 50)</h4>
+          <span class="round-badge-pill">ROUND 3</span>
+        </div>
+        <div class="slider-group">
+          <div class="slider-row">
+            <input type="range" id="modal-r3-slider" min="0" max="50" step="0.5" value="0">
+            <input type="number" id="modal-r3-score" class="slider-val-box" min="0" max="50" step="0.5" value="0">
+          </div>
+        </div>
+        <div>
+          <label style="font-size: 11px;">Prompts Used in Round 3</label>
+          <input type="number" id="modal-r3-prompts" min="0" step="1" value="0" placeholder="Number of prompts">
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+        <button class="btn btn-outline" onclick="closeEvaluationModal()">Cancel</button>
+        <button id="modal-save-eval-btn" class="btn btn-primary" style="padding: 12px 28px; font-size: 15px;">Save & Update Board</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Security PIN Modal for Evaluators (PIN: 784567) -->
+  <div id="pin-modal" class="pin-modal">
+    <div class="pin-modal-card">
+      <div class="pin-modal-header">
+        <h3 style="font-size: 20px; font-weight: 800;">Security PIN Verification</h3>
+        <button id="pin-close-btn" class="eval-modal-close-btn" aria-label="Close PIN Dialog">&times;</button>
+      </div>
+      <p style="font-size: 13.5px; color: var(--ink-muted); margin: 8px 0 16px;">
+        Please enter the evaluator PIN code to proceed:
+      </p>
+      <div style="margin-bottom: 14px;">
+        <input type="password" id="pin-code-input" maxlength="12" placeholder="Enter PIN"
+          style="width: 100%; padding: 12px 16px; font-size: 18px; font-weight: 800; letter-spacing: 4px; text-align: center; border-radius: 10px; border: 2px solid var(--border); background: var(--snow); color: var(--ink); outline: none;">
+      </div>
+      <div id="pin-error-msg" style="display: none; color: #ef4444; font-size: 13px; font-weight: 700; margin-bottom: 14px; text-align: center;">
+        Incorrect PIN code. Access denied.
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button id="pin-cancel-btn" class="btn btn-outline" style="padding: 10px 18px;">Cancel</button>
+        <button id="pin-submit-btn" class="btn btn-primary" style="padding: 10px 22px;">Verify</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Placeholder -->
+  <div id="leaderboard-toast" class="toast-notice"></div>
+
+  <!-- Shared Footer (Hidden automatically in fullscreen) -->
+  <footer id="footer-placeholder"></footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/leaderboard.js"></script>
+</body>
+
+</html>

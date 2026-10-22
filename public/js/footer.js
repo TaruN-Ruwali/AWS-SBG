@@ -17,6 +17,7 @@ document.getElementById('footer-placeholder').innerHTML = `
       <ul>
         <li><a href="about.html">About</a></li>
         <li><a href="events.html">Events</a></li>
+        <li><a href="leaderboard.html">Leaderboard</a></li>
         <li><a href="team.html">Team</a></li>
         <li><a href="gallery.html">Gallery</a></li>
       </ul>

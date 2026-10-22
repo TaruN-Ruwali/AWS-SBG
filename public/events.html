@@ -26,6 +26,7 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="events.html" class="active">Events</a></li>
+        <li><a href="leaderboard.html" class="leaderboard-nav-link"><span class="live-pulse-dot"></span>Leaderboard <span class="badge-live">LIVE</span></a></li>
         <li><a href="team.html">Team</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="gallery.html">Gallery</a></li>
@@ -67,8 +68,11 @@
     <p class="lead">Workshops, hackathons, and cloud certification drives run by student builders, for student builders.
     </p>
 
-    <div style="margin-top: 24px;">
-      <a href="https://chat.whatsapp.com/KJ8cUIfKNcVFPbrzMUJcEo" class="btn btn-primary" style="font-size: 14px;">View
+    <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <a href="leaderboard.html" class="btn btn-primary" style="font-size: 14px; background: linear-gradient(135deg, #1b6cfb, #0046d1);">
+        <span class="live-pulse-dot" style="background: #fff; box-shadow: 0 0 0 0 rgba(255,255,255,0.7);"></span> Vibeathon Live Leaderboard ↗
+      </a>
+      <a href="https://chat.whatsapp.com/KJ8cUIfKNcVFPbrzMUJcEo" class="btn btn-outline" style="font-size: 14px;">View
         All Events on Community ↗</a>
     </div>
   </section>
@@ -86,6 +90,26 @@
 
       <h3 style="margin-bottom: 30px; text-align: center;">Event Schedule</h3>
       <div class="timeline">
+
+        <!-- Live Vibeathon Event Card -->
+        <div class="timeline-item filter-item" data-category="hackathon">
+          <div class="timeline-dot" style="background-color: #ef4444; box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.25);"></div>
+          <div class="timeline-content" style="border: 1.5px solid rgba(27, 108, 251, 0.4); box-shadow: 0 8px 30px rgba(27, 108, 251, 0.12);">
+            <div class="timeline-date">
+              <span class="live-pulse-dot"></span> LIVE NOW • 3 ROUNDS • 41 TEAMS
+            </div>
+            <h4 style="font-size: 19px; margin-top: 4px;">AWS SBG Vibeathon 2026: Prompt. Build. Deploy.</h4>
+            <p style="color: var(--ink-muted); margin-top: 8px; font-size: 14px;">
+              A flagship AI & cloud vibe coding hackathon featuring 41 teams evaluated across 3 intensive rounds (50 marks each, 150 marks total).
+              Featuring real-time prompt efficiency tracking and dynamic rankings.
+            </p>
+            <div style="margin-top: 14px;">
+              <a href="leaderboard.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
+                View Live Leaderboard (41 Teams) ↗
+              </a>
+            </div>
+          </div>
+        </div>
 
         <div class="timeline-item filter-item" data-category="hackathon">
           <div class="timeline-dot"></div>
